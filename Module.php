@@ -3,30 +3,33 @@
 namespace Core;
 
 /**
- * Main CoreItem to enable all boilerplate integrations
+ * Main Module to enable all boilerplate integrations
  * @package Core
  * @abstract
  */
-abstract class CoreItem{
+abstract class Module{
 
     /**
-     * @var string Core-Item Name
+     * The Module Name
+     * @var string
      */
     private $name;
 
     /**
-     * @var int priority of inclusion into the boilerplate
+     * The priority of inclusion into the boilerplate
+     * @var int
      */
     private $priority;
 
     /**
-     * @var RequireHandler Handler for required files
+     * Handler for required files
+     * @var RequireHandler
      */
     private $requireHandler;
 
     /**
-     * CoreItem constructor.
-     * @param string $name Name of the Core-Item
+     * Module constructor.
+     * @param string $name Name of the Module
      * @param int $priority Priority of inclusion into the boilerplate
      */
     public function __construct(string $name, int $priority = 1){
@@ -38,26 +41,26 @@ abstract class CoreItem{
     }
 
     /**
-     * Initializes the Core-Item
+     * Initializes the Module
      * @abstract
      */
     abstract public function init(): void;
 
     /**
-     * Builds up a RequireHandler for later usage within this CoreItem
+     * Builds up a RequireHandler for later usage within this Module
      * @return RequireHandler The combined RequireHandler
      * @abstract
      */
     abstract public function require(): RequireHandler;
 
     /**
-     * Includes the CoreItem-Assets on the enqueue script-hook
+     * Includes the Module-Assets on the enqueue script-hook
      * @abstract
      */
     abstract public function enqueue(): void;
 
     /**
-     * Adds the combined RequireHandler to the CoreItem
+     * Adds the combined RequireHandler to the Module
      */
     private final function requireFiles(): void{
         $this->requireHandler = $this->require();

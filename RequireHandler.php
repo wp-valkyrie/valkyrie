@@ -2,12 +2,21 @@
 namespace Core;
 
 /**
- * Handles and dispatches includes
- * @package Core
+ * Class RequireHandler
+ * @package Core Handles and dispatches includes
  */
 class RequireHandler{
 
+    /**
+     * List of all required files with their groupings
+     * @var array Associative array containing groups which their files
+     */
     private $list = [];
+
+    /**
+     * List of all existing groups for this RequireHandler
+     * @var array List of strings
+     */
     private $groups = [];
 
     /**

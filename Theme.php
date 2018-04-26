@@ -1,13 +1,13 @@
 <?php
-namespace IMA;
-use Core\CoreItem;
+namespace Core;
+use Core\Module;
 use Core\RequireHandler;
 
 /**
  * Main Theme Object
  * @package IMA
  */
-class Theme extends CoreItem {
+class Theme extends Module {
 
     /**
      * Initializes the Theme Object
@@ -29,10 +29,13 @@ class Theme extends CoreItem {
      */
     public function require(): RequireHandler{
         $handler = new RequireHandler();
-        $handler->addFile(__DIR__ . '/types/[!_]*.php', 'types');
+        $handler->addFile(get_stylesheet_directory() . '/types/[!_]*.php', 'types');
         return $handler;
     }
 
+    /**
+     * Enqueues the main Theme assets
+     */
     public function enqueue(): void{
         wp_enqueue_script( 'app-js', get_stylesheet_directory_uri() . '/assets/dist/js/app.js', [], '1.0', true );
         wp_enqueue_style( 'app-css', get_stylesheet_directory_uri() . '/assets/dist/css/app.css', [], '1.0', 'all');
