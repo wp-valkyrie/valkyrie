@@ -1,57 +1,55 @@
 <?php
-
-namespace Core\Wordpress\Form;
+namespace Core\Admin\Form;
 
 /**
- * Basic Text-Input field
+ * Basic Textarea-Field
  * @package Core\Wordpress\Form
  */
-class Input implements Element{
+class Area implements Element{
 
     /**
-     * Input-Field name-attribute
+     * Textarea-Field name-attribute
      * @var string
      */
     private $name;
 
     /**
-     * Input-Field type-attribute
-     * @var string
-     */
-    private $type;
-
-    /**
-     * Input-Field label
+     * Textarea-Field label
      * @var string
      */
     private $label;
 
     /**
-     * Input-Field tag-attributes
+     * Textarea-Field tag-attributes
      * @var array
      */
     private $args;
 
     /**
-     * Input constructor.
-     * @param string $name Input-Field name-attribute
-     * @param string $label Input-Field label
-     * @param string $type Input-Field type-attribute
-     * @param array $args key, value pair of all attributes for the input tag
+     * Textarea-Field default value
+     * @var string
      */
-    public function __construct(string $name, string $label, string $type = 'text', array $args = []){
+    private $value;
+
+    /**
+     * Area constructor.
+     * @param string $name Textarea-Field name-attribute
+     * @param string $label Textarea-Field label
+     * @param array $args Textarea-Field tag-attributes
+     * @param string $value Textarea-Field default value
+     */
+    public function __construct(string $name, string $label, array $args = [], string $value = ''){
+        $this->value = $value;
         $this->name = $name;
-        $this->type = $type;
         $this->label = $label;
         $this->args = wp_parse_args($args, [
-            'type' => $this->type,
             'name' => $this->name,
             'id' => uniqid()
         ]);
     }
 
     /**
-     * Renders the Input-Field
+     * Renders the Textarea-Field
      */
     public function render(): void{
         $argsString = '';
@@ -59,15 +57,14 @@ class Input implements Element{
             $argsString .= ' ' . $attribute . '="'. addslashes($value) .'"';
         }
         $label = '<label for="' . $this->args['id'] . '">' . $this->label .  '</label>';
-        $input = '<input ' . $argsString .  ' /> ';
+        $input = '<textarea ' . $argsString .  '>' . $this->value . '</textarea> ';
         echo $label . ' ' . $input;
     }
 
     /**
-     * Saves the Input-Field on Form-Submit
+     * Saves the Textarea-Field on Form-Submit
      */
     public function process(): void{
 
     }
-
 }

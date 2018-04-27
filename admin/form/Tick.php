@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Wordpress\Form;
+namespace Core\Admin\Form;
 
 
 /**

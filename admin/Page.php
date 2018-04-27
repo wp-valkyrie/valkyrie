@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Wordpress;
+namespace Core\Admin;
 
 /**
  * Handles Pages for the WP-Admin-Panel

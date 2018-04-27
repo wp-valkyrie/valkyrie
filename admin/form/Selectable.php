@@ -1,7 +1,7 @@
 <?php
 
-namespace Core\Wordpress\Form;
-use Core\Wordpress\Form\Selectable\Option;
+namespace Core\Admin\Form;
+use Core\Admin\Form\Selectable\Option;
 
 /**
  * Base template for input types, with multiple options
@@ -32,12 +32,10 @@ abstract class Selectable implements Element {
 
     /**
      * Adds a new Option to the Selectable option-list
-     * @param string $value The option value
-     * @param string $label The displayed label associated with the option value
-     * @param bool $checked True to select/tick this option in the Selectable
+     * @param Option $option The Option object to add to the Selectable
      */
-    public function addOption(string $value, string $label, bool $checked = false): void{
-        array_push($this->options, new Option($value, $label, $checked));
+    public function addOption(Option $option): void{
+        array_push($this->options, $option);
     }
 
     /**

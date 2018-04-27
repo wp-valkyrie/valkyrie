@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Wordpress;
+namespace Core\Admin;
 
-use Core\Wordpress\Form\Element;
+use Core\Admin\Form\Element;
 
 /**
  * Form-Builder for the WP Backend

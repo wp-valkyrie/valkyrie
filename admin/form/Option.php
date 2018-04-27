@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Wordpress\Form\Selectable;
+namespace Core\Admin\Form\Selectable;
 
 /**
  * Wrapper for Selectable options
