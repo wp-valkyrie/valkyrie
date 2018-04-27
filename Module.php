@@ -38,6 +38,7 @@ abstract class Module{
         $this->requireFiles();
 
         add_action( 'wp_enqueue_scripts', [$this, 'enqueue']);
+        add_action( 'admin_enqueue_scripts', [$this, 'adminEnqueue']);
     }
 
     /**
@@ -58,6 +59,12 @@ abstract class Module{
      * @abstract
      */
     abstract public function enqueue(): void;
+
+    /**
+     * Includes the Module-Assets on the adminenqueue script-hook
+     * @abstract
+     */
+    abstract public function adminEnqueue(): void;
 
     /**
      * Adds the combined RequireHandler to the Module

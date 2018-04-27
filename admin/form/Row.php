@@ -2,7 +2,10 @@
 
 namespace Core\Admin\Form;
 
-
+/**
+ * Row handler, wraps multiple Column objects
+ * @package Core\Admin\Form
+ */
 class Row implements Element{
 
     /**

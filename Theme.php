@@ -40,4 +40,15 @@ class Theme extends Module {
         wp_enqueue_script( 'app-js', get_stylesheet_directory_uri() . '/assets/dist/js/app.js', [], '1.0', true );
         wp_enqueue_style( 'app-css', get_stylesheet_directory_uri() . '/assets/dist/css/app.css', [], '1.0', 'all');
     }
+
+    /**
+     * Enqueues the main Theme admin assets
+     */
+    public function adminEnqueue(): void{
+
+        if ( ! did_action( 'wp_enqueue_media' ) ) {
+            wp_enqueue_media();
+        }
+        wp_enqueue_script( 'app-js', get_stylesheet_directory_uri() . '/wp-core/admin/assets/file.js', ['jquery'], '1.0', true );
+    }
 }

@@ -37,11 +37,13 @@ class Form{
      * Calls the render method of all registered Element objects
      */
     private function render(): void{
+        echo '<form action="#" method="post">';
         foreach ($this->items as $item){
             echo '<div>';
             $item->render();
             echo '</div>';
         }
+        echo '</form>';
     }
 
     /**
