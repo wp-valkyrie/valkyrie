@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\admin\form;
+namespace Core\Admin\Form;
 
 /**
  * Basic button
@@ -50,13 +50,24 @@ class Button implements Element{
 
     /**
      * Renders the Button
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function render(): void{
+    public function render(Dispatcher $dispatcher): void{
         echo '<button id="' . $this->id . '" class="' . implode(' ', $this->classes) . '" ' . 'type="' . $this->type . '"'.'>' . $this->text . '</button>';
     }
 
     /**
      * Buttons do nothing on Form-Submit
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function process(): void{}
+     public function process(Dispatcher $dispatcher): void{}
+
+    /**
+     * Sets the individual Elements value based on the Dispatcher
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
+     */
+    public function setValue(Dispatcher $dispatcher): void
+    {
+        // TODO: Implement setValue() method.
+    }
 }

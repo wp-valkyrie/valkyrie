@@ -40,21 +40,33 @@ class Row implements Element{
 
     /**
      * Processes the Row with all its Column objects on Form-Submit
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function process(): void{
+     public function process(Dispatcher $dispatcher): void{
         foreach ($this->columns as $column){
-            $column->process();
+            $column->process($dispatcher);
         }
     }
 
     /**
      * Renders the Row objects with all its Column objects
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function render(): void{
+    public function render(Dispatcher $dispatcher): void{
         echo '<div class="row">';
         foreach ($this->columns as $column){
-            $column->render();
+            $column->render($dispatcher);
         }
         echo '</div>';
+    }
+
+    /**
+     * Sets the individual Elements value based on the Dispatcher
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
+     */
+    public function setValue(Dispatcher $dispatcher): void{
+        foreach ($this->columns as $column){
+            $column->setValue($dispatcher);
+        }
     }
 }

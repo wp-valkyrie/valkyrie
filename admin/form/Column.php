@@ -41,21 +41,33 @@ class Column implements Element{
 
     /**
      * Renders the Column with all its child Element objects
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function render(): void {
+    public function render(Dispatcher $dispatcher): void {
         echo '<div class="' . implode(' ', $this->classes) . '">';
-        foreach ($this->elements as $column){
-            $column->render();
+        foreach ($this->elements as $element){
+            $element->render($dispatcher);
         }
         echo '</div>';
     }
 
     /**
      * Processes all child Element objects
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function process(): void {
-        foreach ($this->elements as $column){
-            $column->process();
+     public function process(Dispatcher $dispatcher): void {
+        foreach ($this->elements as $element){
+            $element->process($dispatcher);
+        }
+    }
+
+    /**
+     * Sets the individual Elements value based on the Dispatcher
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
+     */
+    public function setValue(Dispatcher $dispatcher): void{
+        foreach ($this->elements as $element){
+            $element->setValue($dispatcher);
         }
     }
 }

@@ -30,13 +30,24 @@ class Html implements Element{
 
     /**
      * HTML-Elements do nothing on Form-Submit
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function process(): void{}
+     public function process(Dispatcher $dispatcher): void{}
 
     /**
      * Renders the HTML content
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function render(): void{
+    public function render(Dispatcher $dispatcher): void{
         echo $this->content;
+    }
+
+    /**
+     * Sets the individual Elements value based on the Dispatcher
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
+     */
+    public function setValue(Dispatcher $dispatcher): void
+    {
+        // TODO: Implement setValue() method.
     }
 }

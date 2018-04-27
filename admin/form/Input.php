@@ -52,8 +52,9 @@ class Input implements Element{
 
     /**
      * Renders the Input-Field
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function render(): void{
+    public function render(Dispatcher $dispatcher): void{
         $argsString = '';
         foreach ($this->args as $attribute => $value){
             $argsString .= ' ' . $attribute . '="'. addslashes($value) .'"';
@@ -65,9 +66,18 @@ class Input implements Element{
 
     /**
      * Saves the Input-Field on Form-Submit
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function process(): void{
-
+     public function process(Dispatcher $dispatcher): void{
+        $value = $dispatcher->getValue($this->name);
+        $dispatcher->save($this->name,$value);
     }
 
+    /**
+     * Sets the individual Elements value based on the Dispatcher
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
+     */
+    public function setValue(Dispatcher $dispatcher): void {
+        $this->args['value'] = htmlspecialchars($dispatcher->get($this->name));
+    }
 }

@@ -50,8 +50,9 @@ class Area implements Element{
 
     /**
      * Renders the Textarea-Field
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function render(): void{
+    public function render(Dispatcher $dispatcher): void{
         $argsString = '';
         foreach ($this->args as $attribute => $value){
             $argsString .= ' ' . $attribute . '="'. addslashes($value) .'"';
@@ -63,8 +64,18 @@ class Area implements Element{
 
     /**
      * Saves the Textarea-Field on Form-Submit
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function process(): void{
+     public function process(Dispatcher $dispatcher): void{
+         $value = $dispatcher->getValue($this->name);
+         $dispatcher->save($this->name,$value);
+    }
 
+    /**
+     * Sets the individual Elements value based on the Dispatcher
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
+     */
+    public function setValue(Dispatcher $dispatcher): void{
+        $this->value = $dispatcher->get($this->name);
     }
 }

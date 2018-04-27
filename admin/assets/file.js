@@ -49,6 +49,11 @@ jQuery(function($){
         button.addClass('button').html(atob(button.attr('data-text')));
     });
 
+    /**
+     * Renders the Attachment image depending on its type
+     * @param (object) attachment The attachment object
+     * @returns {string} The <img tag for the given attachment
+     */
     function renderType(attachment){
         switch(attachment.type){
             case 'image':

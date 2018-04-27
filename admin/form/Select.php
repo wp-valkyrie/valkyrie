@@ -26,8 +26,9 @@ class Select extends Selectable{
 
     /**
      * Renders the Selectbox
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function render(): void{
+    public function render(Dispatcher $dispatcher): void{
         $id = uniqid();
         $label = '<label for="' . $id . '">' . $this->label .  '</label>';
         $select = '<select id="' . $id . '" name="' . $this->getName() . '">';
@@ -41,8 +42,28 @@ class Select extends Selectable{
 
     /**
      * Saves the Selectbox on Form-Submit
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function process(): void{
+     public function process(Dispatcher $dispatcher): void{
+         $value = $dispatcher->getValue($this->getName());
+         $dispatcher->save($this->getName(),$value);
+     }
 
+    /**
+     * Sets the individual Elements value based on the Dispatcher
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
+     */
+    public function setValue(Dispatcher $dispatcher): void{
+        $value = $dispatcher->get($this->getName());
+        if ($value){
+            foreach ($this->getOptions() as $option){
+                if ($option->value === $value){
+                    $option->checked = true;
+                }
+                else{
+                    $option->checked = false;
+                }
+            }
+        }
     }
 }

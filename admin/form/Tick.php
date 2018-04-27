@@ -27,8 +27,9 @@ class Tick extends Selectable{
 
     /**
      * Renders the Tick-Box
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function render(): void{
+    public function render(Dispatcher $dispatcher): void{
         foreach ($this->getOptions() as $option){
             $id = uniqid();
             $label = '<label for="' . $id . '">' . $option->label  . '</label>';
@@ -39,8 +40,28 @@ class Tick extends Selectable{
 
     /**
      * Saves the Tick-Box on Form-Submit
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function process(): void{
+     public function process(Dispatcher $dispatcher): void{
+         $value = $dispatcher->getValue($this->getName());
+         $dispatcher->save($this->getName(),$value);
+     }
 
+    /**
+     * Sets the individual Elements value based on the Dispatcher
+     * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
+     */
+    public function setValue(Dispatcher $dispatcher): void{
+        $value = $dispatcher->get($this->getName());
+        if ($value){
+            foreach ($this->getOptions() as $option){
+                if ($option->value === $value){
+                    $option->checked = true;
+                }
+                else{
+                    $option->checked = false;
+                }
+            }
+        }
     }
 }
