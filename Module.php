@@ -49,10 +49,11 @@ abstract class Module{
 
     /**
      * Builds up a RequireHandler for later usage within this Module
+     * @param RequireHandler $handler A fresh RequireHandler to add files to
      * @return RequireHandler The combined RequireHandler
      * @abstract
      */
-    abstract public function require(): RequireHandler;
+    abstract public function require(RequireHandler $handler): RequireHandler;
 
     /**
      * Includes the Module-Assets on the enqueue script-hook
@@ -70,7 +71,7 @@ abstract class Module{
      * Adds the combined RequireHandler to the Module
      */
     private final function requireFiles(): void{
-        $this->requireHandler = $this->require();
+        $this->requireHandler = $this->require(new RequireHandler());
     }
 
     /**
@@ -80,5 +81,13 @@ abstract class Module{
      */
     public final function requireGroup(string $group = 'default'): void{
         $this->requireHandler->dispatch($group);
+    }
+
+    /**
+     * Returns the Priority of the current Module
+     * @return int
+     */
+    public function getPriority(): int{
+        return $this->priority;
     }
 }
