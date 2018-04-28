@@ -3,6 +3,7 @@
 use Core\Module as Module;
 use Core\Admin\Page  as Page;
 use Core\Admin\Meta as Meta;
+use Core\Admin\Notice as Notice;
 
 /**
  * Main API to interact with the Core Workflow
@@ -28,6 +29,12 @@ class Core{
     private static $metas = [];
 
     /**
+     * List of registered Admin Notices
+     * @var Notice[]
+     */
+    private static $notices = [];
+
+    /**
      * Main Core Directory
      * @var string
      */
@@ -46,6 +53,9 @@ class Core{
 
         // Load Admin Pages
         add_action( 'admin_menu', [self::class, 'dispatchPages'], PHP_INT_MAX);
+
+        // Load Notices
+        add_action('admin_notices', [self::class, 'renderNotices'], PHP_INT_MAX);
     }
 
     /**
@@ -75,6 +85,12 @@ class Core{
         }
     }
 
+    public static function renderNotices(): void{
+        foreach (self::$notices as $notice){
+            $notice->render();
+        }
+    }
+
     /**
      * Adds a new Module to the core, which gets loaded automatically
      * @param Module $module New Module to add to the Core
@@ -97,6 +113,14 @@ class Core{
      */
     public static function addMeta(Meta $meta): void{
         array_push(self::$metas, $meta);
+    }
+
+    /**
+     * Adds a admin Notice to the core, which gets loaded in the admin panel
+     * @param Notice $notice
+     */
+    public static function addNotice(Notice $notice): void{
+        array_push(self::$notices, $notice);
     }
 
     /**
