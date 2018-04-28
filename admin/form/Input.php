@@ -28,7 +28,7 @@ class Input implements Element{
 
     /**
      * Input-Field tag-attributes
-     * @var array
+     * @var string[] key value pair
      */
     private $args;
 

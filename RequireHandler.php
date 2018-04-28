@@ -9,13 +9,13 @@ class RequireHandler{
 
     /**
      * List of all required files with their groupings
-     * @var array Associative array containing groups which their files
+     * @var string[][] Associative array containing groups which their files
      */
     private $list = [];
 
     /**
      * List of all existing groups for this RequireHandler
-     * @var array List of strings
+     * @var string[] List of strings
      */
     private $groups = [];
 
@@ -79,7 +79,7 @@ class RequireHandler{
     public function dispatch(string $group): void{
         $group = $this->getGroup($group);
         foreach ($group as $file){
-            require($file);
+            require_once($file);
         }
     }
 }

@@ -10,13 +10,13 @@ class Row implements Element{
 
     /**
      * List of child Column objects
-     * @var array Array of Column objects
+     * @var Column[]
      */
     private $columns = [];
 
     /**
      * List of classes for the Row
-     * @var array list of strings
+     * @var string[]
      */
     private $classes = [];
 

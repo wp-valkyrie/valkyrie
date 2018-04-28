@@ -28,7 +28,7 @@ class File implements Element {
 
     /**
      * Array of accepted File-Types Only dispaly items of a specific MIME type (Ex: 'image', 'image/png', 'application/pdf')
-     * @var array
+     * @var string[]
      */
     private $types;
 

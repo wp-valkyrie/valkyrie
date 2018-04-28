@@ -21,7 +21,7 @@ class Area implements Element{
 
     /**
      * Textarea-Field tag-attributes
-     * @var array
+     * @var string[]
      */
     private $args;
 

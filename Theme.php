@@ -21,14 +21,15 @@ class Theme extends Module {
      */
     public function init(): void{
         $this->requireGroup('types');
+        echo 'theme loaded';
     }
 
     /**
      * Prepare all Includes for the theme
+     * @param RequireHandler $handler A fresh RequireHandler to add files to
      * @return RequireHandler All theme required-files
      */
-    public function require(): RequireHandler{
-        $handler = new RequireHandler();
+    public function require(RequireHandler $handler): RequireHandler{
         $handler->addFile(get_stylesheet_directory() . '/types/[!_]*.php', 'types');
         return $handler;
     }

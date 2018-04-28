@@ -14,7 +14,7 @@ class Form{
 
     /**
      * List of all Form Elements
-     * @var array Array of Element objects
+     * @var Element[]
      */
     private $items = [];
 

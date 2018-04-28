@@ -10,7 +10,7 @@ class Page{
 
     /**
      * List of AdminPages, which are children of the current AdminPage
-     * @var array Array of AdminPage
+     * @var Page[]
      */
     private $childPages;
 

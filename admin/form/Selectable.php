@@ -12,7 +12,7 @@ abstract class Selectable implements Element {
 
     /**
      * Array of Option objects
-     * @var array
+     * @var Option[]
      */
     private $options = [];
 

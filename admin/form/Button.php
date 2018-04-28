@@ -16,7 +16,7 @@ class Button implements Element{
 
     /**
      * The Button-Classes
-     * @var array List of strings
+     * @var string[]
      */
     private $classes;
 
