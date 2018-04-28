@@ -4,7 +4,7 @@ namespace Core\Module;
 use Core\Module;
 use Core\RequireHandler;
 
-class Admin extends Module {
+class AdminPage extends Module {
 
     /**
      * Initializes the Theme Object

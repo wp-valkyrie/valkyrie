@@ -8,8 +8,8 @@ require_once 'RequireHandler.php';
 Core::prepare();
 
 
-require_once 'module/Admin.php';
-require_once 'module/Form.php';
+require_once 'module/AdminPage.php';
+require_once 'module/AdminForm.php';
 
-Core::addModule(new \Core\Module\Admin());
-Core::addModule(new \Core\Module\Form());
+Core::addModule(new \Core\Module\AdminPage());
+Core::addModule(new \Core\Module\AdminForm());

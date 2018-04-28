@@ -5,7 +5,7 @@ namespace Core\Module;
 use Core\Module;
 use Core\RequireHandler;
 
-class Form extends Module{
+class AdminForm extends Module{
 
     /**
      * Initializes the Theme Object
