@@ -13,7 +13,7 @@ class Core{
     public static $dir = __DIR__;
 
     public static function prepare(){
-        add_action('init', [self::class, 'load']);
+        add_action('after_setup_theme', [self::class, 'load']);
     }
 
     public static function addModule(Module $module): void{

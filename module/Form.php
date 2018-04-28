@@ -2,7 +2,6 @@
 
 namespace Core\Module;
 
-
 use Core\Module;
 use Core\RequireHandler;
 
