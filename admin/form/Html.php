@@ -43,11 +43,8 @@ class Html implements Element{
     }
 
     /**
-     * Sets the individual Elements value based on the Dispatcher
+     * HTML-Elements do not have a value
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function setValue(Dispatcher $dispatcher): void
-    {
-        // TODO: Implement setValue() method.
-    }
+    public function setValue(Dispatcher $dispatcher): void{}
 }

@@ -8,10 +8,32 @@ namespace Core\Admin\Form;
  */
 class Editor implements Element{
 
+    /**
+     * The editors name-attribute
+     * @var string
+     */
     private $name;
+
+    /**
+     * The wp_editor Options array
+     * @var array
+     * @see https://codex.wordpress.org/Function_Reference/wp_editor
+     */
     private $options;
+
+    /**
+     * The editors default content
+     * @var string
+     */
     private $content;
 
+    /**
+     * Editor constructor.
+     * @param string $name The editors name-attribute
+     * @param array $options The wp_editor Options array
+     * @param string $content The editors default content
+     * @see https://codex.wordpress.org/Function_Reference/wp_editor
+     */
     public function __construct(string $name, array $options = [], string $content = ''){
         $this->name = $name;
         $this->content = $content;
@@ -32,7 +54,6 @@ class Editor implements Element{
      */
      public function process(Dispatcher $dispatcher): void{
          $value = $dispatcher->getValue($this->name);
-         var_dump($value);
          $dispatcher->save($this->name,$value);
     }
 

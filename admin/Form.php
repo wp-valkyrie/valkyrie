@@ -63,7 +63,10 @@ class Form{
      * @param Dispatcher $dispatcher The Dispatcher-Object
      */
     private function render(Dispatcher $dispatcher): void{
-        echo '<form id="'. sanitize_title($this->id) .'" action="'.'#'.sanitize_title($this->id).'" method="post">';
+        if ($dispatcher->isOption()){
+            echo '<form id="'. sanitize_title($this->id) .'" action="'.'#'.sanitize_title($this->id).'" method="post">';
+        }
+
         foreach ($this->items as $item){
             echo '<div>';
             $item->setValue($dispatcher);
@@ -75,22 +78,41 @@ class Form{
         echo '<input type="hidden" name="core-form" value="'.$this->id.'">';
 
         // WP-Nonce
-        wp_nonce_field($this->getNonceString());
+//        wp_nonce_field($this->getNonceString());
 
-        echo '</form>';
+        if ($dispatcher->isOption()) {
+            echo '</form>';
+        }
     }
 
     /**
      * Processes the Form and renders the Elements
-     * @param int $type The Dispatcher-Object Type
-     * @throws \Exception
+     * @param int $type The Dispatcher-Object-Type
+     * @param bool $process True if the form should be processed on Form-Submit
+     * @param bool process True if the form should be rendered
      */
-    public function dispatch(int $type): void{
-        $dispatcher = new Dispatcher($type, sanitize_title($this->id));
-        if (isset($_POST['core-form']) && $_POST['core-form'] === $this->id && check_admin_referer($this->getNonceString())){
-            $dispatcher->setPost($_POST);
-            $this->process($dispatcher);
+    public function dispatch(int $type = null, bool $process = true, bool $render = true): void{
+        if (is_null($type)){
+            $type = Dispatcher::OPTION;
+            if (get_current_screen()->parent_base === 'edit'){
+                $type = Dispatcher::META;
+            }
         }
-        $this->render($dispatcher);
+        try{
+            $dispatcher = new Dispatcher($type, sanitize_title($this->id));
+            if ($process){
+                if (isset($_POST['core-form']) && $_POST['core-form'] === $this->id){
+//                    if (check_admin_referer($this->getNonceString())){
+                        $dispatcher->setPost($_POST);
+                        $this->process($dispatcher);
+//                    }
+                }
+            }
+            if ($render){
+                $this->render($dispatcher);
+            }
+        } catch(\Exception $e){
+            echo $e->getMessage();
+        }
     }
 }

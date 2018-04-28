@@ -8,13 +8,50 @@ namespace Core\Admin\Form;
  */
 class File implements Element {
 
+    /**
+     * The Title of the opening modal-box
+     * @var string
+     */
     private $title;
+
+    /**
+     * The Button-Text in the opening modal-box
+     * @var string
+     */
     private $button;
+
+    /**
+     * The Upload-Button Text
+     * @var string
+     */
     private $upload;
+
+    /**
+     * Array of accepted File-Types Only dispaly items of a specific MIME type (Ex: 'image', 'image/png', 'application/pdf')
+     * @var array
+     */
     private $types;
+
+    /**
+     * The name attribute of the File-Upload
+     * @var string
+     */
     private $name;
+
+    /**
+     * The File-ID of the currently selected Image
+     * @var null|int
+     */
     private $value;
 
+    /**
+     * File constructor.
+     * @param string $name The name attribute of the File-Upload
+     * @param string $upload The Upload-Button Text
+     * @param array $types Array of accepted File-Types Only dispaly items of a specific MIME type (Ex: 'image', 'image/png', 'application/pdf')
+     * @param string $title The Title of the opening modal-box
+     * @param string $button The Button-Text in the opening modal-box
+     */
     public function __construct(string $name, string $upload = "Datei hochladen", array $types = [], string $title = "Datei auswählen", string $button="Auswahl bestätigen"){
         $this->name = $name;
         $this->upload = $upload;

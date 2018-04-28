@@ -45,7 +45,6 @@ class Theme extends Module {
      * Enqueues the main Theme admin assets
      */
     public function adminEnqueue(): void{
-
         if ( ! did_action( 'wp_enqueue_media' ) ) {
             wp_enqueue_media();
         }

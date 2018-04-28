@@ -2,7 +2,6 @@
 
 namespace Core\Admin\Form;
 
-
 /**
  * Tick-Box Selectable, checkbox or radio
  * @package Core\Wordpress\Form
