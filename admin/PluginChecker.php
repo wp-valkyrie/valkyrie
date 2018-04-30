@@ -2,16 +2,28 @@
 
 namespace Core\Admin;
 
-
+/**
+ * Checks if Plugins are available in Wordpress
+ * @package Core\Admin
+ */
 class PluginChecker{
 
     const ERROR_VERSION = 401;
     const ERROR_MISSING = 402;
     const ERROR_INACTIVE = 403;
 
+    /**
+     * List of Plugins
+     * @var array
+     */
     private $dependencies = [];
 
-
+    /**
+     * Adds a Plugin to the checker
+     * @param string $name Plugin Name
+     * @param string $dir Plugin-Directory
+     * @param string $version Minimal Plugin-Version
+     */
     public function addPlugin(string $name, string $dir, string $version = '0'): void{
         array_push($this->dependencies, [
             'name' => $name,
@@ -20,6 +32,10 @@ class PluginChecker{
         ]);
     }
 
+    /**
+     * Checks all Plugins and writes an Admin-Notice
+     * if the Plugin is inactive, missing or to old
+     */
     public function checkPlugins(): void{
         $missings = $this->getMissingPlugins();
         if (count($missings) > 0){
@@ -44,6 +60,11 @@ class PluginChecker{
         }
     }
 
+    /**
+     * Creates a List of Missing Plugins with
+     * an error status code, which allows to pinpoint the problem
+     * @return array
+     */
     private function getMissingPlugins(): array{
         require_once(ABSPATH . 'wp-admin/includes/plugin.php');
         $plugins = get_plugins();
