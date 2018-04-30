@@ -11,6 +11,8 @@ class Dispatcher{
     const META = 101;
     const OPTION = 102;
 
+    const NOT_EXIST = '----not-exist----';
+
     /**
      * The Dispatcher Type: Dispatcher::META or Dispatcher::OPTION
      * @var int
@@ -156,5 +158,20 @@ class Dispatcher{
             return $this->post[$key];
         }
         return null;
+    }
+
+    /**
+     * Checks if a option or meta-value with the given key exists
+     * @param string $key The key to check for
+     * @return bool True if the key exists
+     */
+    public function isset(string $key){
+        global $wpdb;
+        if ($this->isMeta()){
+            return !empty($wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE meta_key = '$key' "));
+        }
+        else{
+            return get_option($key, self::NOT_EXIST) !== self::NOT_EXIST;
+        }
     }
 }

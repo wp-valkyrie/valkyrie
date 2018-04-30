@@ -8,6 +8,8 @@ namespace Core\Admin\Form;
  */
 class Check extends Element{
 
+    const NO_VALUE = '----no-value----';
+
     /**
      * The checkboxes label
      * @var string
@@ -39,12 +41,12 @@ class Check extends Element{
      * @param bool $checked True if the checkbox is checked by default
      * @param string $value The checkboxes value attribute
      */
-    public function __construct(string $name, string $label, bool $checked = false, string $value = ''){
+    public function __construct(string $name, string $label, bool $checked = false, string $value = self::NO_VALUE){
         parent::__construct($name);
         $this->label = $label;
         $this->value = $value;
         $this->checked = $checked;
-        if (empty($this->value)){
+        if ($this->value = self::NO_VALUE){
             $this->onlyBool = true;
         }
     }
@@ -80,13 +82,15 @@ class Check extends Element{
      */
     public function setValue(Dispatcher $dispatcher): void{
         $value = $dispatcher->get($this->name);
-        $checked = false;
-        if ($this->onlyBool && $value === 'on'){
-            $checked = true;
+        if ($dispatcher->isset($this->name)){
+            $checked = false;
+            if ($this->onlyBool && $value === 'on'){
+                $checked = true;
+            }
+            elseif ($value === $this->value){
+                $checked = true;
+            }
+            $this->checked = $checked;
         }
-        elseif ($value === $this->value){
-            $checked = true;
-        }
-        $this->checked = $checked;
     }
 }
