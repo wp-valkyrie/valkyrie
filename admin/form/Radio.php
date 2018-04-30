@@ -6,22 +6,15 @@ namespace Core\Admin\Form;
  * Tick-Box Selectable, checkbox or radio
  * @package Core\Wordpress\Form
  */
-class Tick extends Selectable{
+class Radio extends Selectable{
 
-    /**
-     * Tick-Box type 'checkbox' or 'radio'
-     * @var string
-     */
-    private $type;
 
     /**
      * Tick constructor.
-     * @param string $type Tick-Box type 'checkbox' or 'radio'
      * @param string $name Tick-Box name-attribute
      */
-    public function __construct(string $type, string $name){
+    public function __construct(string $name){
         parent::__construct($name);
-        $this->type = $type;
     }
 
     /**
@@ -32,7 +25,7 @@ class Tick extends Selectable{
         foreach ($this->getOptions() as $option){
             $id = uniqid();
             $label = '<label for="' . $id . '">' . $option->label  . '</label>';
-            $radio = '<input id="' . $id . '" type="' . $this->type . '" name="' . $this->name . '" value="' . $option->value . '" ' . (($option->checked)?'checked':'') . ' />';
+            $radio = '<input id="' . $id . '" type="radio" name="' . $this->name . '" value="' . $option->value . '" ' . (($option->checked)?'checked':'') . ' />';
             echo $radio . $label;
         }
     }

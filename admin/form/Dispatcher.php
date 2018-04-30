@@ -104,10 +104,10 @@ class Dispatcher{
      */
     public function save(string $name, $value){
         if($this->isMeta()){
-            return update_post_meta($this->id,$this->prefix . $name, $value);
+            return update_post_meta($this->id, $name, $value);
         }
         else{
-            return update_option($this->prefix . $name, $value);
+            return update_option($name, $value);
         }
     }
 
@@ -118,10 +118,10 @@ class Dispatcher{
      */
     public function get(string $name){
         if ($this->isMeta()){
-            return get_post_meta($this->id, $this->prefix . $name, true);
+            return get_post_meta($this->id, $name, true);
         }
         else{
-            return stripslashes(get_option($this->prefix . $name));
+            return stripslashes(get_option($name));
         }
     }
 
