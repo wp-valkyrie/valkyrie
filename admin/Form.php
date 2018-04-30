@@ -2,6 +2,7 @@
 
 namespace Core\Admin;
 
+use Core\Admin\Form\Condition;
 use Core\Admin\Form\Dispatcher;
 use Core\Admin\Form\Element;
 
@@ -11,12 +12,19 @@ use Core\Admin\Form\Element;
  */
 class Form{
 
+    const MODULE_PREFIX_DELIMIT = '-';
 
     /**
      * List of all Form Elements
      * @var Element[]
      */
     private $items = [];
+
+    /**
+     * List of conditional Logik for this Form
+     * @var Condition[]
+     */
+    private $logic = [];
 
     /**
      * Identifier-String for the current Form
@@ -64,8 +72,38 @@ class Form{
      */
     private function prefix(Dispatcher $dispatcher): void{
         foreach ($this->items as $item){
-            $item->prefixName(trim($dispatcher->getPrefix(), '-').'-');
+            $item->prefixName($dispatcher->getPrefix() . self::MODULE_PREFIX_DELIMIT);
         }
+    }
+
+    /**
+     * Gets the logic from all Elements
+     * and stores them into the member logic variable
+     */
+    private function fetchLogic(): void{
+        $logic = [];
+        foreach ($this->items as $item){
+            $logic = array_merge($logic, $item->getLogic());
+        }
+        $this->logic = $logic;
+    }
+
+    /**
+     * Injects the Form-Logic as a Script-Tag into the HMTML
+     * gets called in the rendering method
+     * @param Dispatcher $dispatcher The Dispatcher-Object
+     * @todo cleanup this function, its kind of messy
+     */
+    private function injectLogic(Dispatcher $dispatcher): void{
+        $json = json_encode($this->logic);
+        $id = $this->id . uniqid();
+        $prefix = $dispatcher->getPrefix() . self::MODULE_PREFIX_DELIMIT;
+        ?>
+        <script type="application/javascript">
+            let <?php echo $id;?> = new Form("<?php echo $this->id;?>", "<?php echo $prefix;?>", <?php echo $json;?>.map((item)=>new Condition(item.field, item.value, item.not, item.elementName)))
+            <?php echo $id;?>.init();
+        </script>
+        <?php
     }
 
     /**
@@ -75,6 +113,9 @@ class Form{
     private function render(Dispatcher $dispatcher): void{
         if ($dispatcher->isOption()){
             echo '<form id="'. sanitize_title($this->id) .'" action="'.'#'.sanitize_title($this->id).'" method="post">';
+        }
+        else{
+            echo '<div id="'. sanitize_title($this->id) .'">';
         }
 
         foreach ($this->items as $item){
@@ -89,9 +130,13 @@ class Form{
 
         // WP-Nonce
         wp_nonce_field(__FILE__, $this->getNonceString());
+        $this->injectLogic($dispatcher);
 
         if ($dispatcher->isOption()) {
             echo '</form>';
+        }
+        else{
+            echo '</div>';
         }
     }
 
@@ -120,6 +165,7 @@ class Form{
                 }
             }
             if ($render){
+                $this->fetchLogic();
                 $this->render($dispatcher);
             }
         } catch(\Exception $e){

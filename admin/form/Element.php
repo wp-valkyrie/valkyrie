@@ -15,11 +15,35 @@ abstract class Element{
     public $name;
 
     /**
+     * List of all Conditions for this Element
+     * @var Condition[]
+     */
+    private $conditions = [];
+
+
+    /**
      * Element constructor.
      * @param string $name The Elements Name
      */
     public function __construct(string $name){
         $this->name = $name;
+    }
+
+    /**
+     * Returns the full conditions array
+     * @return Condition[]
+     */
+    public final function getLogic(): array{
+        return $this->conditions;
+    }
+
+    /**
+     * Adds a new Condition to this Element
+     * @param Condition $condition New condition for this Element
+     */
+    public final function addCondition(Condition $condition): void{
+        $condition->bindTo($this);
+        array_push($this->conditions, $condition);
     }
 
     /**
