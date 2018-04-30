@@ -78,7 +78,7 @@ class Form{
         echo '<input type="hidden" name="core-form" value="'.$this->id.'">';
 
         // WP-Nonce
-//        wp_nonce_field($this->getNonceString());
+        wp_nonce_field(__FILE__, $this->getNonceString());
 
         if ($dispatcher->isOption()) {
             echo '</form>';
@@ -102,10 +102,10 @@ class Form{
             $dispatcher = new Dispatcher($type, sanitize_title($this->id));
             if ($process){
                 if (isset($_POST['core-form']) && $_POST['core-form'] === $this->id){
-//                    if (check_admin_referer($this->getNonceString())){
+                    if (check_admin_referer(__FILE__, $this->getNonceString())){
                         $dispatcher->setPost($_POST);
                         $this->process($dispatcher);
-//                    }
+                    }
                 }
             }
             if ($render){
