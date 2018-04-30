@@ -6,13 +6,7 @@ namespace Core\Admin\Form;
  * Basic Text-Input field
  * @package Core\Wordpress\Form
  */
-class Input implements Element{
-
-    /**
-     * Input-Field name-attribute
-     * @var string
-     */
-    private $name;
+class Input extends Element{
 
     /**
      * Input-Field type-attribute
@@ -40,12 +34,11 @@ class Input implements Element{
      * @param array $args key, value pair of all attributes for the input tag
      */
     public function __construct(string $name, string $label, string $type = 'text', array $args = []){
-        $this->name = $name;
+        parent::__construct($name);
         $this->type = $type;
         $this->label = $label;
         $this->args = wp_parse_args($args, [
             'type' => $this->type,
-            'name' => $this->name,
             'id' => uniqid()
         ]);
     }
@@ -55,6 +48,7 @@ class Input implements Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
+        $this->args['name'] = $this->name;
         $argsString = '';
         foreach ($this->args as $attribute => $value){
             $argsString .= ' ' . $attribute . '="'. addslashes($value) .'"';

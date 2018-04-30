@@ -72,15 +72,24 @@ class Page{
     }
 
     /**
+     * Renders the Page-Content with the given handler function
+     */
+    public function pageHandler(): void{
+        echo '<div class="wrap">';
+        ($this->handler)();
+        echo '</div>';
+    }
+
+    /**
      * Attaches the current AdminPage to the WP-Backend
      * @param Page|null $page the parent-page this page gets attached to
      */
     public function dispatch(Page $page = null): void{
         if (is_null($page)){
-            add_menu_page($this->title, $this->title, $this->capability, $this->getSlug(), $this->handler, $this->icon, $this->position);
+            add_menu_page($this->title, $this->title, $this->capability, $this->getSlug(), [$this, 'pageHandler'], $this->icon, $this->position);
         }
         else{
-            add_submenu_page($page->getSlug(), $this->title, $this->title, $this->capability, $this->getSlug(), $this->handler);
+            add_submenu_page($page->getSlug(), $this->title, $this->title, $this->capability, $this->getSlug(), [$this, 'pageHandler']);
         }
         foreach ($this->childPages as $childPage){
             $childPage->dispatch($this);

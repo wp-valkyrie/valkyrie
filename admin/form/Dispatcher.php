@@ -57,6 +57,14 @@ class Dispatcher{
     }
 
     /**
+     * Returns the current Dispatcher-Prefix
+     * @return string
+     */
+    public function getPrefix(): string{
+        return $this->prefix;
+    }
+
+    /**
      * Sets the Post-Data array
      * @param array $post The Post-Data
      */

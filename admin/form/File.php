@@ -6,7 +6,7 @@ namespace Core\Admin\Form;
  * Basic File-Upload Element
  * @package Core\Admin\Form
  */
-class File implements Element {
+class File extends Element {
 
     /**
      * The Title of the opening modal-box
@@ -33,12 +33,6 @@ class File implements Element {
     private $types;
 
     /**
-     * The name attribute of the File-Upload
-     * @var string
-     */
-    private $name;
-
-    /**
      * The File-ID of the currently selected Image
      * @var null|int
      */
@@ -53,7 +47,7 @@ class File implements Element {
      * @param string $button The Button-Text in the opening modal-box
      */
     public function __construct(string $name, string $upload = "Datei hochladen", array $types = [], string $title = "Datei auswählen", string $button="Auswahl bestätigen"){
-        $this->name = $name;
+        parent::__construct($name);
         $this->upload = $upload;
         $this->button = $button;
         $this->types = $types;

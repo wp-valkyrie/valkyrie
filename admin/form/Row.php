@@ -6,7 +6,7 @@ namespace Core\Admin\Form;
  * Row handler, wraps multiple Column objects
  * @package Core\Admin\Form
  */
-class Row implements Element{
+class Row extends Element{
 
     /**
      * List of child Column objects
@@ -25,9 +25,20 @@ class Row implements Element{
      * @param array classes List of classes for the Row
      */
     public function __construct(array $classes = []){
+        parent::__construct('');
         $this->classes = array_unique(array_merge($classes, [
             'row'
         ]));
+    }
+
+    /**
+     * Pass the name prefix to the columns
+     * @param string $prefix the name prefix
+     */
+    public function prefixName(string $prefix): void{
+        foreach ($this->columns as $column){
+            $column->prefixName($prefix);
+        }
     }
 
     /**

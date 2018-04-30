@@ -6,7 +6,7 @@ namespace Core\Admin\Form;
  * Row Column Handler, wraps multiple Element Objects
  * @package Core\Admin\Form
  */
-class Column implements Element{
+class Column extends Element{
 
     /**
      * List of all child Element objects
@@ -25,10 +25,21 @@ class Column implements Element{
      * @param array $classes List of classes for the Column
      */
     public function __construct(array $classes = []){
+        parent::__construct('');
         $this->classes = array_unique(array_merge($classes, [
             'column',
             'auto'
         ]));
+    }
+
+    /**
+     * Pass the name prefix to the Child Elements
+     * @param string $prefix the name prefix
+     */
+    public function prefixName(string $prefix): void{
+        foreach ($this->elements as $element){
+            $element->prefixName($prefix);
+        }
     }
 
     /**

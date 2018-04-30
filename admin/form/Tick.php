@@ -32,7 +32,7 @@ class Tick extends Selectable{
         foreach ($this->getOptions() as $option){
             $id = uniqid();
             $label = '<label for="' . $id . '">' . $option->label  . '</label>';
-            $radio = '<input id="' . $id . '" type="' . $this->type . '" name="' . $this->getName() . '" value="' . $option->value . '" ' . (($option->checked)?'checked':'') . ' />';
+            $radio = '<input id="' . $id . '" type="' . $this->type . '" name="' . $this->name . '" value="' . $option->value . '" ' . (($option->checked)?'checked':'') . ' />';
             echo $radio . $label;
         }
     }
@@ -42,8 +42,8 @@ class Tick extends Selectable{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
      public function process(Dispatcher $dispatcher): void{
-         $value = $dispatcher->getValue($this->getName());
-         $dispatcher->save($this->getName(),$value);
+         $value = $dispatcher->getValue($this->name);
+         $dispatcher->save($this->name,$value);
      }
 
     /**
@@ -51,7 +51,7 @@ class Tick extends Selectable{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function setValue(Dispatcher $dispatcher): void{
-        $value = $dispatcher->get($this->getName());
+        $value = $dispatcher->get($this->name);
         if ($value){
             foreach ($this->getOptions() as $option){
                 if ($option->value === $value){

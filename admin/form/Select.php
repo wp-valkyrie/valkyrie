@@ -16,10 +16,10 @@ class Select extends Selectable{
 
     /**
      * Select constructor.
-     * @param string $label The Selectbox label
      * @param string $name The Selectboxes name-attribute
+     * @param string $label The Selectbox label
      */
-    public function __construct(string $label, string $name){
+    public function __construct(string $name, string $label){
         parent::__construct($name);
         $this->label = $label;
     }
@@ -31,7 +31,7 @@ class Select extends Selectable{
     public function render(Dispatcher $dispatcher): void{
         $id = uniqid();
         $label = '<label for="' . $id . '">' . $this->label .  '</label>';
-        $select = '<select id="' . $id . '" name="' . $this->getName() . '">';
+        $select = '<select id="' . $id . '" name="' . $this->name . '">';
         foreach ($this->getOptions() as $option){
             $select .= '<option value="'.$option->value.'" ' . (($option->checked)?'selected':'') . '>' . $option->label . '</option>';
         }
@@ -45,8 +45,8 @@ class Select extends Selectable{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
      public function process(Dispatcher $dispatcher): void{
-         $value = $dispatcher->getValue($this->getName());
-         $dispatcher->save($this->getName(),$value);
+         $value = $dispatcher->getValue($this->name);
+         $dispatcher->save($this->name,$value);
      }
 
     /**
@@ -54,7 +54,7 @@ class Select extends Selectable{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function setValue(Dispatcher $dispatcher): void{
-        $value = $dispatcher->get($this->getName());
+        $value = $dispatcher->get($this->name);
         if ($value){
             foreach ($this->getOptions() as $option){
                 if ($option->value === $value){

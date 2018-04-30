@@ -6,13 +6,7 @@ namespace Core\Admin\Form;
  * Wrapper for the WP-Editor
  * @package Core\admin\form
  */
-class Editor implements Element{
-
-    /**
-     * The editors name-attribute
-     * @var string
-     */
-    private $name;
+class Editor extends Element{
 
     /**
      * The wp_editor Options array
@@ -35,7 +29,7 @@ class Editor implements Element{
      * @see https://codex.wordpress.org/Function_Reference/wp_editor
      */
     public function __construct(string $name, array $options = [], string $content = ''){
-        $this->name = $name;
+        parent::__construct($name);
         $this->content = $content;
         $this->options = wp_parse_args($options, []);
     }

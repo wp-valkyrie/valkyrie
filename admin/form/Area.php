@@ -5,13 +5,7 @@ namespace Core\Admin\Form;
  * Basic Textarea-Field
  * @package Core\Wordpress\Form
  */
-class Area implements Element{
-
-    /**
-     * Textarea-Field name-attribute
-     * @var string
-     */
-    private $name;
+class Area extends Element{
 
     /**
      * Textarea-Field label
@@ -39,11 +33,10 @@ class Area implements Element{
      * @param string $value Textarea-Field default value
      */
     public function __construct(string $name, string $label, array $args = [], string $value = ''){
+        parent::__construct($name);
         $this->value = $value;
-        $this->name = $name;
         $this->label = $label;
         $this->args = wp_parse_args($args, [
-            'name' => $this->name,
             'id' => uniqid()
         ]);
     }
@@ -53,6 +46,7 @@ class Area implements Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
+        $this->args['name'] = $this->name;
         $argsString = '';
         foreach ($this->args as $attribute => $value){
             $argsString .= ' ' . $attribute . '="'. addslashes($value) .'"';

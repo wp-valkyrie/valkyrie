@@ -12,7 +12,7 @@ namespace Core\Admin\Form;
  * HTML-Content Element
  * @package Core\Wordpress\Form
  */
-class Html implements Element{
+class Html extends Element{
 
     /**
      * HTML-Content
@@ -25,6 +25,7 @@ class Html implements Element{
      * @param string $content The HTML content
      */
     public function __construct(string $content){
+        parent::__construct('');
         $this->content = $content;
     }
 

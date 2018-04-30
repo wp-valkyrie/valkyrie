@@ -41,6 +41,14 @@ class Form{
     }
 
     /**
+     * Returns the Forms Nonce-String
+     * @return string The hashed String
+     */
+    private function getNonceString(): string{
+        return md5($this->id);
+    }
+
+    /**
      * Calls the process method of all registered Element objects
      * @param Dispatcher $dispatcher The Dispatcher-Object
      */
@@ -51,11 +59,13 @@ class Form{
     }
 
     /**
-     * Returns the Forms Nonce-String
-     * @return string The hashed String
+     * Adds the dispatchers-prefix to all Elements
+     * @param Dispatcher $dispatcher
      */
-    private function getNonceString(): string{
-        return md5($this->id);
+    private function prefix(Dispatcher $dispatcher): void{
+        foreach ($this->items as $item){
+            $item->prefixName(trim($dispatcher->getPrefix(), '-').'-');
+        }
     }
 
     /**
@@ -100,6 +110,7 @@ class Form{
         }
         try{
             $dispatcher = new Dispatcher($type, sanitize_title($this->id));
+            $this->prefix($dispatcher);
             if ($process){
                 if (isset($_POST['core-form']) && $_POST['core-form'] === $this->id){
                     if (check_admin_referer(__FILE__, $this->getNonceString())){

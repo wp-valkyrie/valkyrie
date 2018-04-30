@@ -6,7 +6,7 @@ namespace Core\Admin\Form;
  * Basic button
  * @package Core\admin\form
  */
-class Button implements Element{
+class Button extends Element{
 
     /**
      * The Button Text
@@ -40,6 +40,7 @@ class Button implements Element{
      * @param string $type The buttons type attribute
      */
     public function __construct(string $text, array $classes = [],  string $id = '', string $type = 'submit'){
+        parent::__construct('');
         $this->text = $text;
         $this->classes = array_unique(array_merge($classes, [
             'button'

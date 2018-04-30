@@ -8,19 +8,13 @@ use Core\Admin\Form\Selectable\Option;
  * @package Core\Wordpress\Form
  * @abstract
  */
-abstract class Selectable implements Element {
+abstract class Selectable extends Element {
 
     /**
      * Array of Option objects
      * @var Option[]
      */
     private $options = [];
-
-    /**
-     * The name attribute for this Element
-     * @var string
-     */
-    private $name;
 
     /**
      * Selectable constructor.
@@ -44,13 +38,5 @@ abstract class Selectable implements Element {
      */
     public function getOptions(): array{
         return $this->options;
-    }
-
-    /**
-     * The name attribute for this Element
-     * @return string
-     */
-    public function getName(): string{
-        return $this->name;
     }
 }
