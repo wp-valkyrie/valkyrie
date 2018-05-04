@@ -90,4 +90,12 @@ abstract class Module{
     public function getPriority(): int{
         return $this->priority;
     }
+
+    /**
+     * Returns the Modules name
+     * @return string
+     */
+    public function getName(): string{
+        return $this->name;
+    }
 }

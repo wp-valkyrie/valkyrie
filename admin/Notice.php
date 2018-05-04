@@ -35,6 +35,7 @@ class Notice{
      * @param string $content The Notice-Content
      * @param int $type The Notice-type (color)
      * @param bool $dismissible True if the notice is dismissible
+     * @todo Don't show notice after it was dismissed
      */
     public function __construct(string $content, int $type = self::NONE, bool $dismissible = false){
         $this->content = $content;

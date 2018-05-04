@@ -179,9 +179,7 @@ class Core{
      * Orders the Modules-Array by its priority
      */
     private static function orderModules(): void{
-        uasort(self::$modules, function($a, $b){
-            /* @var Module $a */
-            /* @var Module $b */
+        uasort(self::$modules, function(Module $a, Module $b){
             $a = $a->getPriority();
             $b = $b->getPriority();
             if ($a == $b){
