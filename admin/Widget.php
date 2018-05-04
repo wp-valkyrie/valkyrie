@@ -174,7 +174,11 @@ class Widget {
              * @return void
              */
             public function form($instance){
-                $this->coreWidget->renderForm($instance);
+                try{
+                    $this->coreWidget->renderForm($instance);
+                } catch(\Exception $e){
+                    echo $e->getMessage();
+                }
             }
 
             /**
