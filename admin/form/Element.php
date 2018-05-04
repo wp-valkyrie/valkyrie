@@ -55,6 +55,14 @@ abstract class Element{
     }
 
     /**
+     * Adds a suffix to the elements name
+     * @param string $suffix The Suffix, which will be added to the elements name
+     */
+    public function suffixName(string $suffix): void{
+        $this->name .= $suffix;
+    }
+
+    /**
      * Renders the individual Element
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */

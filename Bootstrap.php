@@ -12,9 +12,11 @@ require_once 'module/AdminPage.php';
 require_once 'module/AdminForm.php';
 require_once 'module/AdminNotice.php';
 require_once 'module/AdminPluginCheck.php';
+require_once 'module/AdminWidget.php';
 
 
 Core::addModule(new \Core\Module\AdminPage());
 Core::addModule(new \Core\Module\AdminForm());
 Core::addModule(new \Core\Module\AdminNotice());
 Core::addModule(new \Core\Module\AdminPluginCheck());
+Core::addModule(new \Core\Module\AdminWidget());

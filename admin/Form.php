@@ -12,7 +12,17 @@ use Core\Admin\Form\Element;
  */
 class Form{
 
-    const MODULE_PREFIX_DELIMIT = '-';
+    /**
+     * Delimiter String between the dispatcher prefix and the element name
+     * @var string
+     */
+    private $delimiter = '-';
+
+    /**
+     * Suffix for the element names
+     * @var string
+     */
+    private $suffix = '';
 
     /**
      * List of all Form Elements
@@ -66,13 +76,23 @@ class Form{
         }
     }
 
+
     /**
      * Adds the dispatchers-prefix to all Elements
      * @param Dispatcher $dispatcher
      */
-    private function prefix(Dispatcher $dispatcher): void{
+    public function prefix(Dispatcher $dispatcher): void{
         foreach ($this->items as $item){
-            $item->prefixName($dispatcher->getPrefix() . self::MODULE_PREFIX_DELIMIT);
+            $item->prefixName($dispatcher->getPrefix() . $this->delimiter);
+        }
+    }
+
+    /**
+     * Adds a suffix to all Elements
+     */
+    public function suffix(): void{
+        foreach ($this->items as $item){
+            $item->suffixName($this->suffix);
         }
     }
 
@@ -95,9 +115,12 @@ class Form{
      * @todo cleanup this function, its kind of messy
      */
     private function injectLogic(Dispatcher $dispatcher): void{
+        if ($dispatcher->isWidget()){
+            return;
+        }
         $json = json_encode($this->logic);
         $id = $this->id . uniqid();
-        $prefix = $dispatcher->getPrefix() . self::MODULE_PREFIX_DELIMIT;
+        $prefix = $dispatcher->getPrefix() . $this->delimiter;
         ?>
         <script type="application/javascript">
             let <?php echo $id;?> = new Form("<?php echo $this->id;?>", "<?php echo $prefix;?>", <?php echo $json;?>.map((item)=>new Condition(item.field, item.value, item.not, item.elementName)))
@@ -110,7 +133,7 @@ class Form{
      * Calls the render method of all registered Element objects
      * @param Dispatcher $dispatcher The Dispatcher-Object
      */
-    private function render(Dispatcher $dispatcher): void{
+    public function render(Dispatcher $dispatcher): void{
         if ($dispatcher->isOption()){
             echo '<form id="'. sanitize_title($this->id) .'" action="'.'#'.sanitize_title($this->id).'" method="post">';
         }
@@ -144,7 +167,7 @@ class Form{
      * Processes the Form and renders the Elements
      * @param int $type The Dispatcher-Object-Type
      * @param bool $process True if the form should be processed on Form-Submit
-     * @param bool process True if the form should be rendered
+     * @param bool $render True if the form should be rendered
      */
     public function dispatch(int $type = null, bool $process = true, bool $render = true): void{
         if (is_null($type)){
@@ -154,8 +177,9 @@ class Form{
             }
         }
         try{
-            $dispatcher = new Dispatcher($type, sanitize_title($this->id));
+            $dispatcher = new Dispatcher($type, $this->id, $this);
             $this->prefix($dispatcher);
+            $this->suffix();
             if ($process){
                 if (isset($_POST['core-form']) && $_POST['core-form'] === $this->id){
                     if (check_admin_referer(__FILE__, $this->getNonceString())){
@@ -171,5 +195,45 @@ class Form{
         } catch(\Exception $e){
             echo $e->getMessage();
         }
+    }
+
+    /**
+     * Returns the Form ID-String
+     * @return string
+     */
+    public function getId(): string{
+        return $this->id;
+    }
+
+    /**
+     * Changes the default delimiter String for the current Form Object
+     * @param string $delimiter The new Delimiter-String
+     */
+    public function setDelimiter(string $delimiter): void{
+        $this->delimiter = $delimiter;
+    }
+
+    /**
+     * Returns the delimiter-string
+     * @return string
+     */
+    public function getDelimiter(): string{
+        return $this->delimiter;
+    }
+
+    /**
+     * Changes the default suffix String for the current Form Object
+     * @param string $suffix The new Suffix-String
+     */
+    public function setSuffix(string $suffix): void{
+        $this->suffix = $suffix;
+    }
+
+    /**
+     * Returns the suffix String
+     * @return string
+     */
+    public function getSuffix(): string{
+        return $this->suffix;
     }
 }
