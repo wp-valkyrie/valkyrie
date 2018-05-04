@@ -48,9 +48,21 @@ class Core{
     public static $dir = __DIR__;
 
     /**
+     * Converts the given path string to a WP-URL
+     * @param string $path The path which will be converted
+     * @return string the url representation of the given path
+     */
+    public static function pathToUrl(string $path): string{
+        $root = wp_normalize_path(ABSPATH);
+        $path = wp_normalize_path($path);
+        return esc_url_raw(str_replace($root, get_home_url() . '/', $path));
+    }
+
+    /**
      * Hooks the Core-Modules to the after_setup_theme hook
      */
     public static function prepare(){
+
         // Load Modules
         add_action('after_setup_theme', [self::class, 'load'], PHP_INT_MAX);
 
