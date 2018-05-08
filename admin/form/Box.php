@@ -2,11 +2,8 @@
 
 namespace Core\Admin\Form;
 
-/**
- * Row Column Handler, wraps multiple Element Objects
- * @package Core\Admin\Form
- */
-class Column extends Element{
+
+class Box extends Element{
 
     /**
      * List of all child Element objects
@@ -15,17 +12,25 @@ class Column extends Element{
     private $elements = [];
 
     /**
-     * List of classes for the Column
+     * List of classes for the Box
      * @var string[]
      */
     private $classes;
 
     /**
-     * Column constructor.
-     * @param array $classes List of classes for the Column
+     * The boxes title-text
+     * @var string
      */
-    public function __construct(array $classes = []){
+    private $title;
+
+    /**
+     * Box constructor.
+     * @param string $title The boxes title-text
+     * @param array $classes List of classes for the Box
+     */
+    public function __construct(string $title = '', array $classes = []){
         parent::__construct('');
+        $this->title = $title;
         $this->classes = array_unique($classes);
     }
 
@@ -40,22 +45,27 @@ class Column extends Element{
     }
 
     /**
-     * Adds an Element object to the current Column
-     * @param Element $element The new Element to add to the Column
+     * Adds an Element object to the current Box
+     * @param Element $element The new Element to add to the Box
      */
     public function addElement(Element $element): void{
         array_push($this->elements, $element);
     }
 
     /**
-     * Renders the Column with all its child Element objects
+     * Renders the Box with all its child Element objects
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void {
-        echo '<div class="core-row__item ' . implode(' ', $this->classes) . '">';
+        echo '<div class="core-box ' . implode(' ', $this->classes) . '">';
+        if (!empty($this->title)){
+            echo '<div class="core-box__title"><h2>' . $this->title . '</h2></div>';
+        }
+        echo '<div class="core-box__inner">';
         foreach ($this->elements as $element){
             $element->render($dispatcher);
         }
+        echo '</div>';
         echo '</div>';
     }
 
@@ -63,7 +73,7 @@ class Column extends Element{
      * Processes all child Element objects
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void {
+    public function process(Dispatcher $dispatcher): void {
         foreach ($this->elements as $element){
             $element->process($dispatcher);
         }

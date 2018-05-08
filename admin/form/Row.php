@@ -26,9 +26,7 @@ class Row extends Element{
      */
     public function __construct(array $classes = []){
         parent::__construct('');
-        $this->classes = array_unique(array_merge($classes, [
-            'row'
-        ]));
+        $this->classes = array_unique($classes);
     }
 
     /**
@@ -64,7 +62,7 @@ class Row extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
-        echo '<div class="row">';
+        echo '<div class="core-row">';
         foreach ($this->columns as $column){
             $column->render($dispatcher);
         }

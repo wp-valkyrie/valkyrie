@@ -53,7 +53,8 @@ class Area extends Element{
         }
         $label = '<label for="' . $this->args['id'] . '">' . $this->label .  '</label>';
         $input = '<textarea ' . $argsString .  '>' . $this->value . '</textarea> ';
-        echo $label . ' ' . $input;
+
+        echo self::getRenderedField($label, $input);
     }
 
     /**

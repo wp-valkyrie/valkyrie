@@ -22,15 +22,23 @@ class Editor extends Element{
     private $content;
 
     /**
+     * The editors label
+     * @var string
+     */
+    private $label;
+
+    /**
      * Editor constructor.
      * @param string $name The editors name-attribute
+     * @param string $label The editors label-string
      * @param array $options The wp_editor Options array
      * @param string $content The editors default content
      * @see https://codex.wordpress.org/Function_Reference/wp_editor
      */
-    public function __construct(string $name, array $options = [], string $content = ''){
+    public function __construct(string $name, string $label = '', array $options = [], string $content = ''){
         parent::__construct($name);
         $this->content = $content;
+        $this->label = $label;
         $this->options = wp_parse_args($options, []);
     }
 
@@ -39,7 +47,11 @@ class Editor extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
+        ob_start();
         wp_editor($this->content,$this->name, $this->options);
+        $input = ob_get_clean();
+        $label = '<label>' . $this->label .  '</label>';
+        echo self::getRenderedField($label, $input);
     }
 
     /**

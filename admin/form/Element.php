@@ -79,4 +79,22 @@ abstract class Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public abstract function setValue(Dispatcher $dispatcher): void;
+
+    /**
+     * Renders a core-field with the given field-lael and input-field
+     * @param string $label The label-string (includes label tag)
+     * @param string $field The field-string (full field-string)
+     * @return string The full core-field HTML
+     */
+    public static function getRenderedField(string $label, string $field): string{
+        $out = '<div class="core-field">';
+        if ($label){
+            $out .= '<div class="core-field__label">' . $label . '</div>';
+        }
+        if ($field){
+            $out .=  '<div class="core-field__field">' . $field . '</div>';
+        }
+        $out .= '</div>';
+        return $out;
+    }
 }

@@ -55,7 +55,8 @@ class Input extends Element{
         }
         $label = '<label for="' . $this->args['id'] . '">' . $this->label .  '</label>';
         $input = '<input ' . $argsString .  ' /> ';
-        echo $label . ' ' . $input;
+
+        echo self::getRenderedField($label, $input);
     }
 
     /**

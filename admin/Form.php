@@ -142,10 +142,8 @@ class Form{
         }
 
         foreach ($this->items as $item){
-            echo '<div>';
             $item->setValue($dispatcher);
             $item->render($dispatcher);
-            echo '</div>';
         }
 
         // Identifier for this Form
