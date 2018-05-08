@@ -1,0 +1,75 @@
+.core-field {
+  display: block;
+  margin: 20px 0; }
+  .core-field__label {
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 5px; }
+  .core-field__field input[type=text],
+  .core-field__field input[type=search],
+  .core-field__field input[type=radio],
+  .core-field__field input[type=tel],
+  .core-field__field input[type=time],
+  .core-field__field input[type=url],
+  .core-field__field input[type=week],
+  .core-field__field input[type=password],
+  .core-field__field input[type=checkbox],
+  .core-field__field input[type=color],
+  .core-field__field input[type=date],
+  .core-field__field input[type=datetime],
+  .core-field__field input[type=datetime-local],
+  .core-field__field input[type=email],
+  .core-field__field input[type=month],
+  .core-field__field input[type=number],
+  .core-field__field select,
+  .core-field__field textarea {
+    min-width: 320px;
+    width: 100%; }
+    @media (min-width: 640px) {
+      .core-field__field input[type=text],
+      .core-field__field input[type=search],
+      .core-field__field input[type=radio],
+      .core-field__field input[type=tel],
+      .core-field__field input[type=time],
+      .core-field__field input[type=url],
+      .core-field__field input[type=week],
+      .core-field__field input[type=password],
+      .core-field__field input[type=checkbox],
+      .core-field__field input[type=color],
+      .core-field__field input[type=date],
+      .core-field__field input[type=datetime],
+      .core-field__field input[type=datetime-local],
+      .core-field__field input[type=email],
+      .core-field__field input[type=month],
+      .core-field__field input[type=number],
+      .core-field__field select,
+      .core-field__field textarea {
+        width: 30vw; } }
+  .core-field__field textarea {
+    width: 100%;
+    min-height: 150px;
+    min-width: 320px; }
+
+.core-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -20px; }
+  .core-row__item {
+    flex: 1 1 auto;
+    padding-left: 20px; }
+    .core-row__item--2 {
+      flex-grow: 2; }
+    .core-row__item--3 {
+      flex-grow: 3; }
+
+.core-box {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  margin: 30px 0 20px; }
+  .core-box__title {
+    padding: 0 15px;
+    border-bottom: 1px solid #e5e5e5; }
+  .core-box__inner {
+    padding: 15px; }

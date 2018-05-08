@@ -1,0 +1,79 @@
+@mixin fields{
+    input[type=text],
+    input[type=search],
+    input[type=radio],
+    input[type=tel],
+    input[type=time],
+    input[type=url],
+    input[type=week],
+    input[type=password],
+    input[type=checkbox],
+    input[type=color],
+    input[type=date],
+    input[type=datetime],
+    input[type=datetime-local],
+    input[type=email],
+    input[type=month],
+    input[type=number],
+    select,
+    textarea{
+        @content;
+    }
+}
+
+
+.core-field{
+    display: block;
+    margin: 20px 0;
+    &__label {
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    &__field{
+        @include fields{
+            min-width: 320px;
+            width: 100%;
+            @media (min-width: 640px){
+                width: 30vw;
+            }
+        }
+        textarea{
+            width: 100%;
+            min-height: 150px;
+            min-width: 320px;
+        }
+    }
+}
+
+.core-row{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -20px;
+    &__item{
+        flex: 1 1 auto;
+        padding-left: 20px;
+        &--2{
+            flex-grow: 2;
+        }
+        &--3{
+            flex-grow: 3;
+        }
+    }
+}
+
+
+.core-box{
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(#000, 0.04);
+    margin: 30px 0 20px;
+    &__title{
+        padding: 0 15px;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    &__inner{
+        padding: 15px;
+    }
+}

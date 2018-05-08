@@ -1,0 +1,23 @@
+{
+    "name": "wp-core",
+    "version": "1.0.0",
+    "description": "Wordpress core API for custom modules",
+    "main": "index.js",
+    "scripts": {
+        "styles": "node-sass admin/assets/form.scss admin/assets/form.css",
+        "watch": "node-sass -w admin/assets/form.scss admin/assets/form.css"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jschaefer-io/wp-core.git"
+    },
+    "author": "Jannik Schäfer <me@jschaefer.io>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jschaefer-io/wp-core/issues"
+    },
+    "homepage": "https://github.com/jschaefer-io/wp-core#readme",
+    "devDependencies": {
+        "node-sass": "^4.9.0"
+    }
+}

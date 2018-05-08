@@ -46,6 +46,7 @@ class AdminForm extends Module{
         if ( ! did_action( 'wp_enqueue_media' ) ) {
             wp_enqueue_media();
         }
+        wp_enqueue_style('core-admin-form-css', \Core::pathToUrl(\Core::$dir) . '/admin/assets/form.css', [], '1.0', 'all');
         wp_enqueue_script( 'core-admin-form-logic-js', \Core::pathToUrl(\Core::$dir) . '/admin/assets/form-logic.js', ['jquery'], '1.0', false );
         wp_enqueue_script( 'core-admin-file-js', \Core::pathToUrl(\Core::$dir) . '/admin/assets/file.js', ['jquery'], '1.0', true );
     }
