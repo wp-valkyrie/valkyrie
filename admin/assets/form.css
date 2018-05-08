@@ -1,6 +1,8 @@
 .core-field {
   display: block;
   margin: 20px 0; }
+  .core-field:first-child {
+    margin-top: 0; }
   .core-field__label {
     font-weight: 600;
     display: inline-block;

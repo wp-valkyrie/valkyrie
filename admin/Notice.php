@@ -45,9 +45,17 @@ class Notice{
 
     /**
      * Renders the Notice
-     * according to the set type and content
      */
     public function render(){
+       echo $this;
+    }
+
+    /**
+     * Returns the Notice HTML-Content
+     * according to the set type and content
+     * @return string
+     */
+    public function __toString(): string{
         $class = 'notice';
         switch ($this->type){
             case self::SUCCESS :
@@ -63,6 +71,6 @@ class Notice{
         if ($this->dismissible){
             $class .= ' is-dismissible';
         }
-        echo '<div class="' . $class . '">' . apply_filters('the_content', $this->content) . '</div>';
+        return '<div class="' . $class . '">' . apply_filters('the_content', $this->content) . '</div>';
     }
 }

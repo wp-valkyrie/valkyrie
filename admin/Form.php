@@ -109,7 +109,7 @@ class Form{
     }
 
     /**
-     * Injects the Form-Logic as a Script-Tag into the HMTML
+     * Injects the Form-Logic as a Script-Tag into the HTML
      * gets called in the rendering method
      * @param Dispatcher $dispatcher The Dispatcher-Object
      * @todo cleanup this function, its kind of messy

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Scarlet
- * Date: 27.04.2018
- * Time: 09:40
- */
 
 namespace Core\Admin\Form;
 
