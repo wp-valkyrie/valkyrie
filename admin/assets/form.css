@@ -51,6 +51,20 @@
     width: 100%;
     min-height: 150px;
     min-width: 320px; }
+  .core-field--check {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    margin: 0; }
+    .core-field--check .core-field__label {
+      font-weight: normal; }
+    .core-field--check .core-field__field {
+      margin-top: 2px;
+      padding-right: 5px; }
+      .core-field--check .core-field__field input {
+        width: 16px;
+        height: 16px;
+        min-width: auto; }
 
 .core-row {
   display: flex;

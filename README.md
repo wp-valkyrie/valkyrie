@@ -209,7 +209,7 @@ Building a custom widget is really simple. You only have to define its name and 
 functions. One for rendering and one which builds the form using the Core form-builder.
 ```php
 use Core\Admin\Widget; // needs to be at top of file
-use use Core\Admin\Form; // needs to be at top of file
+use Core\Admin\Form; // needs to be at top of file
 
 $widget = new Widget('widget-id','Widget Name', 'Description', function(array $values, array $atts): void{
     echo $values['headline'];

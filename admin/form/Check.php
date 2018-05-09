@@ -63,8 +63,9 @@ class Check extends Element{
             $value = 'value="'.$this->value.'"';
         }
 
-        echo '<label for="'.$id.'">'.$this->label.'</label>';
-        echo '<input type="checkbox" name="'.$this->name.'" id="'.$id.'" '. $value .' ' . (($this->checked)?'checked':'') . ' />';
+        $label = '<label for="'.$id.'">'.$this->label.'</label>';
+        $field = '<input type="checkbox" name="'.$this->name.'" id="'.$id.'" '. $value .' ' . (($this->checked)?'checked':'') . ' />';
+        echo self::getRenderedField($label, $field, ['core-field--check']);
     }
 
     /**

@@ -2,15 +2,15 @@
 
 namespace Core\Admin\Form;
 
-use Core\Admin\Notice as AdminNotice;
+use Core\Admin\Notice;
 
-class Notice extends Element{
+class Alert extends Element{
 
     const FORM_SAVED = 10;
 
     /**
      * The Notice to render on the condition
-     * @var AdminNotice
+     * @var Notice
      */
     private $notice;
 
@@ -31,9 +31,9 @@ class Notice extends Element{
     /**
      * Notice constructor.
      * @param bool|int $condition Custom boolean expression or builtin constant
-     * @param AdminNotice $notice The Notice to display, if the condition is met
+     * @param Notice $notice The Notice to display, if the condition is met
      */
-    public function __construct($condition, AdminNotice $notice){
+    public function __construct($condition, Notice $notice){
         parent::__construct('');
         $this->notice = $notice;
         $this->condition = $condition;

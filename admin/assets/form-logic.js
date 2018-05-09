@@ -62,8 +62,14 @@ class Form {
         this.logic.forEach((logic)=>{
             let target = $('[name="'+this.prefix + logic.name+'"]'),
                 check = $('[name="'+this.prefix + logic.field+'"]');
+
+            // Search for data-name if we are most likely looking for a wrapping item
+            if (target.length === 0){
+                target = $('[data-name="'+logic.name+'"');
+            }
+
             if (check.length > 0) {
-                // disjunctive normal form or the condition
+                // disjunctive normal form for the condition
                 if (!logic.not && this.constructor.getValue(check) === logic.value || logic.not && this.constructor.getValue(check) !== logic.value){
                     this.stageObject(target, this.prefix + logic.name, true);
                 }
@@ -106,14 +112,14 @@ class Form {
      * Resolves the target states and shows/hides the Element depending on the logic-results
      */
     resolveObjects(){
+        const className = 'js-core-target';
         for (let item in this.targets){
             let target = this.targets[item];
-            if (target.show){
-                target.target.show();
+            let wrapper = target.target;
+            if (!wrapper.hasClass(className)){
+                wrapper = target.target.parents('.'+className).first();
             }
-            else{
-                target.target.hide();
-            }
+            wrapper.toggle(target.show);
         }
     }
 
