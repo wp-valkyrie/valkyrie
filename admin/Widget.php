@@ -8,7 +8,7 @@ use Core\Admin\Form\Dispatcher;
  * Handles Custom Widgets
  * @package Core\Admin
  */
-class Widget {
+class Widget{
 
     /**
      * The Widgets Render Function
@@ -111,7 +111,7 @@ class Widget {
      * @return array the filled data-array
      */
     public function saveForm(array $values, array $target): array{
-        foreach ($values as $key => $value){
+        foreach ($values as $key => $value) {
             $target[$key] = $value;
         }
         return $target;
@@ -164,7 +164,7 @@ class Widget {
              * @param string $description The Widgets description
              */
             public function __construct(Widget $coreWidget, string $id, string $name, string $description){
-                parent::__construct($id, $name, ['description'=>$description]);
+                parent::__construct($id, $name, ['description' => $description]);
                 $this->coreWidget = $coreWidget;
             }
 
@@ -174,9 +174,9 @@ class Widget {
              * @return void
              */
             public function form($instance){
-                try{
+                try {
                     $this->coreWidget->renderForm($instance);
-                } catch(\Exception $e){
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }

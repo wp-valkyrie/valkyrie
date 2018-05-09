@@ -26,6 +26,9 @@ abstract class Element{
      * @param string $name The Elements Name
      */
     public function __construct(string $name){
+        if (empty($name)){
+            $name = uniqid();
+        }
         $this->name = $name;
     }
 
@@ -33,7 +36,7 @@ abstract class Element{
      * Returns the full conditions array
      * @return Condition[]
      */
-    public final function getLogic(): array{
+    public function getLogic(): array{
         return $this->conditions;
     }
 
@@ -84,10 +87,11 @@ abstract class Element{
      * Renders a core-field with the given field-lael and input-field
      * @param string $label The label-string (includes label tag)
      * @param string $field The field-string (full field-string)
+     * @param array $classes List of classes for the core-field
      * @return string The full core-field HTML
      */
-    public static function getRenderedField(string $label, string $field): string{
-        $out = '<div class="core-field">';
+    public static function getRenderedField(string $label, string $field, array $classes = []): string{
+        $out = '<div class="core-field ' . implode(' ' , $classes) . ' / js-core-target">';
         if ($label){
             $out .= '<div class="core-field__label">' . $label . '</div>';
         }

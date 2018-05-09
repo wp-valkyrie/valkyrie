@@ -21,7 +21,7 @@ abstract class Selectable extends Element {
      * @param string $name The name attribute for this Element
      */
     public function __construct(string $name){
-        $this->name = $name;
+        parent::__construct($name);
     }
 
     /**

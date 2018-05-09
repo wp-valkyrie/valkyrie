@@ -30,6 +30,18 @@ class Row extends Element{
     }
 
     /**
+     * Returns the conditions array of all children
+     * @return Condition[]
+     */
+    public function getLogic(): array{
+        $logic = parent::getLogic();
+        foreach ($this->columns as $ccolumn){
+            $logic = array_merge($logic, $ccolumn->getLogic());
+        }
+        return $logic;
+    }
+
+    /**
      * Pass the name prefix to the columns
      * @param string $prefix the name prefix
      */
@@ -62,7 +74,7 @@ class Row extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
-        echo '<div class="core-row">';
+        echo '<div class="core-row / js-core-target" data-name="'.$this->name.'">';
         foreach ($this->columns as $column){
             $column->render($dispatcher);
         }

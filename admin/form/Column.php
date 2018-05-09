@@ -30,6 +30,18 @@ class Column extends Element{
     }
 
     /**
+     * Returns the conditions array of all children
+     * @return Condition[]
+     */
+    public function getLogic(): array{
+        $logic = parent::getLogic();
+        foreach ($this->elements as $element){
+            $logic = array_merge($logic, $element->getLogic());
+        }
+        return $logic;
+    }
+
+    /**
      * Pass the name prefix to the Child Elements
      * @param string $prefix the name prefix
      */
@@ -52,7 +64,7 @@ class Column extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void {
-        echo '<div class="core-row__item ' . implode(' ', $this->classes) . '">';
+        echo '<div class="core-row__item ' . implode(' ', $this->classes) . ' / js-core-target" data-name="'.$this->name.'">';
         foreach ($this->elements as $element){
             $element->render($dispatcher);
         }

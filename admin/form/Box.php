@@ -45,6 +45,18 @@ class Box extends Element{
     }
 
     /**
+     * Returns the conditions array of all children
+     * @return Condition[]
+     */
+    public function getLogic(): array{
+        $logic = parent::getLogic();
+        foreach ($this->elements as $element){
+            $logic = array_merge($logic, $element->getLogic());
+        }
+        return $logic;
+    }
+
+    /**
      * Adds an Element object to the current Box
      * @param Element $element The new Element to add to the Box
      */
@@ -57,7 +69,7 @@ class Box extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void {
-        echo '<div class="core-box ' . implode(' ', $this->classes) . '">';
+        echo '<div class="core-box ' . implode(' ', $this->classes) . ' / js-core-target" data-name="'.$this->name.'">';
         if (!empty($this->title)){
             echo '<div class="core-box__title"><h2>' . $this->title . '</h2></div>';
         }
