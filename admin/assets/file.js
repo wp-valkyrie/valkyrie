@@ -57,7 +57,12 @@ jQuery(function($){
     function renderType(attachment){
         switch(attachment.type){
             case 'image':
-                return '<img src="'+attachment.sizes.thumbnail.url+'" />';
+                if (attachment.sizes){
+                    if (attachment.sizes.thumbnail) {
+                        return '<img src="'+attachment.sizes.thumbnail.url+'" />';    
+                    }
+                    return '<img src="'+attachment.sizes.full.url+'" />';                
+                }
             default:
                 return '<img src="'+attachment.icon+'" />';
         }
