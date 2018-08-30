@@ -115,6 +115,7 @@ class Form{
      * @todo cleanup this function, its kind of messy
      */
     private function injectLogic(Dispatcher $dispatcher): void{
+        return;
         if ($dispatcher->isWidget()){
             return;
         }
