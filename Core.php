@@ -70,8 +70,10 @@ class Core{
         add_action( 'add_meta_boxes', [self::class, 'renderMetas'], PHP_INT_MAX);
         add_action( 'save_post', [self::class, 'saveMetas'], PHP_INT_MAX);
 
+
         // Load Admin Pages
-        add_action( 'admin_menu', [self::class, 'dispatchPages'], PHP_INT_MAX);
+        add_action( 'admin_menu', [self::class, 'dispatchPages'], PHP_INT_MAX); // Normal Pages
+        add_action( 'network_admin_menu', [self::class, 'dispatchNetworkPages'], PHP_INT_MAX); // Network admin pages
 
         // Load Notices
         add_action('admin_notices', [self::class, 'renderNotices'], PHP_INT_MAX);
@@ -103,7 +105,20 @@ class Core{
      */
     public static function dispatchPages(): void{
         foreach (self::$pages as $page){
-            $page->dispatch();
+            if (!$page->isMultisite()){
+                $page->dispatch();
+            }
+        }
+    }
+
+    /**
+     * Renders the NetworkAdminPages in the admin-panel
+     */
+    public static function dispatchNetworkPages(): void{
+        foreach (self::$pages as $page){
+            if ($page->isMultisite()){
+                $page->dispatch();
+            }
         }
     }
 
@@ -136,8 +151,16 @@ class Core{
     /**
      * Adds a new admin Page to the core, which gets loaded automatically
      * @param Page $page The new admin Page
+     * @param string|bool $parent The parent page this page is attached to
+     * @param bool $multisite True if this page is only rendered on the
      */
-    public static function addPage(Page $page): void{
+    public static function addPage(Page $page, $parent = false, $multisite = false): void{
+        if ($parent){
+            $page->pushWpParent($parent);
+        }
+        if ($multisite){
+            $page->setMultisite(true);
+        }
         array_push(self::$pages, $page);
     }
 

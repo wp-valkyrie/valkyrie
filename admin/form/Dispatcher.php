@@ -12,6 +12,7 @@ class Dispatcher{
     const META = 101;
     const OPTION = 102;
     const WIDGET = 103;
+    const SITE_OPTION = 104;
 
     const NOT_EXIST = '----not-exist----';
 
@@ -50,7 +51,7 @@ class Dispatcher{
      * Dispatcher constructor.
      * @param int $type The Dispatcher Type: Dispatcher::META or Dispatcher::OPTION
      * @param string $prefix The key prefix for all saved values
-     * @throws \Exception Throws Exception if $type is not Dispatcher::META, Dispatcher::OPTION or Dispatcher::WIDGET
+     * @throws \Exception Throws Exception if $type is not Dispatcher::META, Dispatcher::OPTION, Dispatcher::SITE_OPTION  or Dispatcher::WIDGET
      */
     public function __construct(int $type, string $prefix, Form $form){
         $this->form = $form;
@@ -60,11 +61,11 @@ class Dispatcher{
         if ($type === self::META){
             $this->id = get_the_ID();
         }
-        elseif ($type === self::OPTION || $type === self::WIDGET){
+        elseif ($type === self::OPTION || $type === self::WIDGET || $type === self::SITE_OPTION){
             $this->id = null;
         }
         else{
-            throw new \Exception('Type must be Dispatcher::META, Dispatcher::OPTION or Dispatcher::WIDGET');
+            throw new \Exception('Type must be Dispatcher::META, Dispatcher::OPTION, Dispatcher::SITE_OPTION or Dispatcher::WIDGET');
         }
     }
 
@@ -126,6 +127,14 @@ class Dispatcher{
     }
 
     /**
+     * Returns true if the current Dispatcher is of type SITE_OPTION
+     * @return bool
+     */
+    public function isSiteOption(): bool{
+        return $this->type === self::SITE_OPTION;
+    }
+
+    /**
      * Returns true if the dispatcher processes Form-Data
      * @return bool
      */
@@ -147,6 +156,9 @@ class Dispatcher{
         elseif($this->isOption()){
             return update_option($name, $value);
         }
+        elseif($this->isSiteOption()){
+            return update_site_option($name, $value);
+        }
         else{
             return true;
         }
@@ -164,6 +176,9 @@ class Dispatcher{
         }
         elseif($this->isOption()){
             return stripslashes(get_option($name));
+        }
+        elseif($this->isSiteOption()){
+            return stripslashes(get_site_option($name));
         }
         else{
             if ($this->hasValue($name)){
@@ -222,6 +237,9 @@ class Dispatcher{
         }
         elseif($this->isOption()){
             return get_option($key, self::NOT_EXIST) !== self::NOT_EXIST;
+        }
+        elseif($this->isSiteOption()){
+            return get_site_option($key, self::NOT_EXIST) !== self::NOT_EXIST;
         }
         else{
             return $this->isset($this->post[$key]);

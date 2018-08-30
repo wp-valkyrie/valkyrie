@@ -134,7 +134,7 @@ class Form{
      * @param Dispatcher $dispatcher The Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
-        if ($dispatcher->isOption()){
+        if ($dispatcher->isOption() || $dispatcher->isSiteOption()){
             echo '<form id="'. sanitize_title($this->id) .'" action="'.'#'.sanitize_title($this->id).'" method="post">';
         }
         else{
@@ -153,7 +153,7 @@ class Form{
         wp_nonce_field(__FILE__, $this->getNonceString());
         $this->injectLogic($dispatcher);
 
-        if ($dispatcher->isOption()) {
+        if ($dispatcher->isOption() || $dispatcher->isSiteOption()){
             echo '</form>';
         }
         else{
@@ -170,6 +170,9 @@ class Form{
     public function dispatch(int $type = null, bool $process = true, bool $render = true): void{
         if (is_null($type)){
             $type = Dispatcher::OPTION;
+            if (is_network_admin()){
+                $type = Dispatcher::SITE_OPTION;
+            }
             if (get_current_screen()->parent_base === 'edit'){
                 $type = Dispatcher::META;
             }
