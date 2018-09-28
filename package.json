@@ -4,8 +4,8 @@
     "description": "Wordpress core API for custom modules",
     "main": "index.js",
     "scripts": {
-        "styles": "node-sass admin/assets/form.scss admin/assets/form.css",
-        "watch": "node-sass -w admin/assets/form.scss admin/assets/form.css"
+        "styles": "node-sass Modules/assets/scss/form.scss Modules/assets/css/form.css",
+        "watch": "node-sass -w Modules/assets/scss/form.scss Modules/assets/css/form.css"
     },
     "repository": {
         "type": "git",
@@ -18,6 +18,6 @@
     },
     "homepage": "https://github.com/jschaefer-io/wp-core#readme",
     "devDependencies": {
-        "node-sass": "^4.9.0"
+        "node-sass": "^4.9.3"
     }
 }

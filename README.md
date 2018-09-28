@@ -34,11 +34,12 @@ Adding module is pretty straightforward and required a fixed set of methods to b
 The individual methods will be explained in the following examples. 
 ```php
 // Minimal Module registration
+use Core\System;
 use Core\Module;
 use Core\RequireHandler;
 
 add_action('after_setup_theme',function() {
-    Core::addModule(new class('%MODULE_NAME%', 10) extends Module{
+    System::addModule(new class('%MODULE_NAME%', 10, ['_CORE_']) extends Module{
         
         // Gets executed when all modules are registered
         public function init(): void{}
@@ -97,14 +98,15 @@ This method is the main entry point for your module. From here you can access th
 and load any stages files from the `require()` method.
 ```php
 // Example usage: Loads the required groups and show success
-use Core\Admin\Notice; // needs to be at top of file
+use Core\System;
+use Core\Admin\Notice;
 
 public function init(): void{
     $this->requireGroup('types');
     $this->requireGroup('meta-boxes');
     
     // Add an admin-notice to indicate successful loading
-    Core::addNotice(new Notice($this->getName().' loaded', Notice::SUCCESS));
+    System::addNotice(new Notice($this->getName().' loaded', Notice::SUCCESS));
 }
 ```
 
@@ -124,36 +126,37 @@ $dependencies->checkPlugins();
 ### Admin Notice
 This has already been introduced in the `require()` method above.
 ```php
+use Core\System; // needs to be at top of file
 use Core\Admin\Notice; // needs to be at top of file
 
 // no color (default)
-Core::addNotice(new Notice('plain', Notice::NONE));
-Core::addNotice(new Notice('plain'));
+System::addNotice(new Notice('plain', Notice::NONE));
+System::addNotice(new Notice('plain'));
 
 // success
-Core::addNotice(new Notice('success', Notice::SUCCESS));
+System::addNotice(new Notice('success', Notice::SUCCESS));
 
 // warning
-Core::addNotice(new Notice('warning', Notice::WARNING));
+System::addNotice(new Notice('warning', Notice::WARNING));
 
 // error
-Core::addNotice(new Notice('error', Notice::ERROR));
+System::addNotice(new Notice('error', Notice::ERROR));
 
 // notice is dismissible
-Core::addNotice(new Notice('warning can be dismissed', Notice::WARNING, true));
+System::addNotice(new Notice('warning can be dismissed', Notice::WARNING, true));
 ```
 
 ### Forms
 The WP-Core comes with a basic Form-Builder which is meant for usage within the Admin-Panel
 in meta-boxes, admin-pages and widgets.
 ```php
-use Core\Admin\Form; // needs to be at top of file
+use Core\Form; // needs to be at top of file
 
 $form = new Form('form-id');
 
-$form->addElement(new Form\Editor('editor')); // WP-Editor
-$form->addElement(new Form\Input('name', 'E-Mail', 'email')); // Input type email
-$form->addElement(new Form\Button('Save Changes', ['button-primary'])); // submit button
+$form->addElement(new Form\Element\Editor('editor')); // WP-Editor
+$form->addElement(new Form\Element\Input('name', 'E-Mail', 'email')); // Input type email
+$form->addElement(new Form\Element\Button('Save Changes', ['button-primary'])); // submit button
 
 // Handles saving and rendering the form.
 // Depending on use-case this is not required every time
@@ -164,8 +167,9 @@ $form->dispatch();
 Adding options-pages to the WP-Backend is really simple. **Option pages support the Core form-builder.**
 Data gets saved to the global options.
 ```php
+use Core\System; // needs to be at top of file
 use Core\Admin\Page; // needs to be at top of file
-use use Core\Admin\Form; // needs to be at top of file
+use Core\Form; // needs to be at top of file
 
 // Page is created
 $page = new Page('Page Title', function(): void{
@@ -173,8 +177,8 @@ $page = new Page('Page Title', function(): void{
     
     // Form Support
     $form = new Form('form-id');    
-    $form->addElement(new Form\Editor('editor'));
-    $form->addElement(new Form\Button('Save Changes', ['button-primary']));
+    $form->addElement(new Form\Element\Editor('editor'));
+    $form->addElement(new Form\Element\Button('Save Changes', ['button-primary']));
     $form->dispatch();
     
 }, 'read', 'dashicons-star-filled', 1);
@@ -185,37 +189,38 @@ $page->addChildPage(new Page('Subpage Title', function(): void{
 }));
 
 // The Page-Tree is added to the core
-Core::addPage($page);
+System::addPage($page);
 ```
 
 ### Meta Boxes
 Adding meta-boxes to the WP-Backend is really simple as well. It is meant to be used with the
 Core form-builder and saves data to the current posts post_meta.
 ```php
+use Core\System; // needs to be at top of file
 use Core\Admin\Meta; // needs to be at top of file
-use use Core\Admin\Form; // needs to be at top of file
+use Core\Form; // needs to be at top of file
 
 // Metaboxes are meant to be used with the formbuilder
 $form = new Form('form-id');
-$form->addElement(new Form\Input('name', 'Label'));
+$form->addElement(new Form\Element\Input('name', 'Label'));
 
 // Metaboxes can be added to multiple post types or WP_Screens
 $meta = new Meta('meta-id','Title', $form, ['post']);
-Core::addMeta($meta);
+System::addMeta($meta);
 ```
 
 ### Widgets
 Building a custom widget is really simple. You only have to define its name and provide two
 functions. One for rendering and one which builds the form using the Core form-builder.
 ```php
+use Core\System; // needs to be at top of file
 use Core\Admin\Widget; // needs to be at top of file
-use Core\Admin\Form; // needs to be at top of file
-
+use Core\Form; // needs to be at top of file
 $widget = new Widget('widget-id','Widget Name', 'Description', function(array $values, array $atts): void{
     echo $values['headline'];
 }, function(Form $form): void{
-    $form->addElement(new Form\Input('headline', 'Label'));
+    $form->addElement(new Form\Element\Input('headline', 'Label'));
 });
 
-Core::addWidget($widget);
+System::addWidget($widget);
 ```
