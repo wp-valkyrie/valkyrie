@@ -48,9 +48,9 @@ class Editor extends Element{
      */
     public function render(Dispatcher $dispatcher): void{
         ob_start();
-        wp_editor($this->content,$this->name, $this->options);
+        wp_editor($this->content, $this->name, $this->options);
         $input = ob_get_clean();
-        $label = '<label>' . $this->label .  '</label>';
+        $label = '<label>' . $this->label . '</label>';
         echo self::getRenderedField($label, $input);
     }
 
@@ -58,9 +58,9 @@ class Editor extends Element{
      * Saves the Editors content on Form-Submit
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void{
-         $value = $dispatcher->getValue($this->name);
-         $dispatcher->save($this->name,$value);
+    public function process(Dispatcher $dispatcher): void{
+        $value = $dispatcher->getValue($this->name);
+        $dispatcher->save($this->name, $value);
     }
 
     /**

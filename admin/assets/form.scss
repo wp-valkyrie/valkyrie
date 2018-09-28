@@ -4,7 +4,7 @@ $black: #000;
 $wp-border: #e5e5e5;
 
 // Mixins
-@mixin fields {
+@mixin fields{
     input[type=text],
     input[type=search],
     input[type=radio],
@@ -22,32 +22,32 @@ $wp-border: #e5e5e5;
     input[type=month],
     input[type=number],
     select,
-    textarea {
+    textarea{
         @content;
     }
 }
 
 // core-field
-.core-field {
+.core-field{
     display: block;
     margin: 20px 0;
-    &:first-child {
+    &:first-child{
         margin-top: 0;
     }
-    &__label {
+    &__label{
         font-weight: 600;
         display: inline-block;
         margin-bottom: 5px;
     }
-    &__field {
-        @include fields {
+    &__field{
+        @include fields{
             min-width: 320px;
             width: 100%;
-            @media (min-width: 640px) {
+            @media (min-width: 640px){
                 width: 30vw;
             }
         }
-        textarea {
+        textarea{
             width: 100%;
             min-height: 150px;
             min-width: 320px;
@@ -76,34 +76,129 @@ $wp-border: #e5e5e5;
 }
 
 // core-row
-.core-row {
+.core-row{
     display: flex;
     flex-wrap: wrap;
     margin-left: -20px;
-    &__item {
+    &__item{
         flex: 1 1 auto;
         padding-left: 20px;
-        &--2 {
+        &--2{
             flex-grow: 2;
         }
-        &--3 {
+        &--3{
             flex-grow: 3;
         }
     }
 }
 
 // core-box
-.core-box {
+.core-box{
     background: $white;
     border: 1px solid $wp-border;
     position: relative;
     box-shadow: 0 1px 1px rgba($black, 0.04);
     margin: 30px 0 20px;
-    &__title {
+    &__title{
         padding: 0 15px;
         border-bottom: 1px solid $wp-border;
     }
-    &__inner {
+    &__inner{
         padding: 15px;
+    }
+}
+
+// core-repeater
+.core-repeater{
+    background: $white;
+    margin: 30px 0 20px;
+    border: 1px solid $wp-border;
+    box-shadow: 0 1px 1px rgba($black, 0.04);
+    &__container{
+        counter-reset: repeat;
+        display: grid;
+    }
+    &__head{
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+    &__head,
+    &__menu,
+    &__item{
+        padding-left: calc(2em + 10px);
+        padding-right: 2em;
+    }
+    &__menu{
+        margin: 1em 0;
+        text-align: center;
+    }
+    &__item{
+        background-color: $white;
+        position: relative;
+        &::before{
+            transition: all 0.2s;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10px;
+            height: 100%;
+        }
+        &::after{
+            border: 1px solid $wp-border;
+            counter-increment: repeat;
+            content: counter(repeat);
+            width: 20px;
+            height: 20px;
+            background: $white;
+            border-radius: 50%;
+            position: absolute;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            top: 15px;
+            left: (10px / 2);
+            transform: translateX(-50%);
+        }
+        &:first-child{
+            &::before{
+                border-top-right-radius: 5px;
+            }
+        }
+        &:last-child{
+            &::before{
+                border-bottom-right-radius: 5px;
+            }
+        }
+        &:nth-child(odd){
+            &::before{
+                background: #ccc;
+            }
+        }
+        &:nth-child(even){
+            &::before{
+                background: #aaa;
+            }
+        }
+        > .core-repeater{
+            &__button{
+                position: absolute;
+                bottom: 15px;
+                right: 15px;
+                opacity: 0;
+                transition: all 0.2s;
+            }
+        }
+        &:hover{
+            > .core-repeater{
+                &__button{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    &__template{
+        display: none;
     }
 }

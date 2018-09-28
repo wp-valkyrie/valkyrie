@@ -50,11 +50,11 @@ class Input extends Element{
     public function render(Dispatcher $dispatcher): void{
         $this->args['name'] = $this->name;
         $argsString = '';
-        foreach ($this->args as $attribute => $value){
-            $argsString .= ' ' . $attribute . '="'. addslashes($value) .'"';
+        foreach ($this->args as $attribute => $value) {
+            $argsString .= ' ' . $attribute . '="' . addslashes($value) . '"';
         }
-        $label = '<label for="' . $this->args['id'] . '">' . $this->label .  '</label>';
-        $input = '<input ' . $argsString .  ' /> ';
+        $label = '<label for="' . $this->args['id'] . '">' . $this->label . '</label>';
+        $input = '<input ' . $argsString . ' /> ';
 
         echo self::getRenderedField($label, $input);
     }
@@ -63,16 +63,16 @@ class Input extends Element{
      * Saves the Input-Field on Form-Submit
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void{
+    public function process(Dispatcher $dispatcher): void{
         $value = $dispatcher->getValue($this->name);
-        $dispatcher->save($this->name,$value);
+        $dispatcher->save($this->name, $value);
     }
 
     /**
      * Sets the individual Elements value based on the Dispatcher
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function setValue(Dispatcher $dispatcher): void {
+    public function setValue(Dispatcher $dispatcher): void{
         $this->args['value'] = htmlspecialchars($dispatcher->get($this->name));
     }
 }

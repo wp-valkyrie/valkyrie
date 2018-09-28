@@ -46,7 +46,7 @@ class Check extends Element{
         $this->label = $label;
         $this->value = $value;
         $this->checked = $checked;
-        if ($this->value = self::NO_VALUE){
+        if ($this->value = self::NO_VALUE) {
             $this->onlyBool = true;
         }
     }
@@ -59,12 +59,12 @@ class Check extends Element{
         $id = uniqid();
 
         $value = '';
-        if (!$this->onlyBool){
-            $value = 'value="'.$this->value.'"';
+        if (!$this->onlyBool) {
+            $value = 'value="' . $this->value . '"';
         }
 
-        $label = '<label for="'.$id.'">'.$this->label.'</label>';
-        $field = '<input type="checkbox" name="'.$this->name.'" id="'.$id.'" '. $value .' ' . (($this->checked)?'checked':'') . ' />';
+        $label = '<label for="' . $id . '">' . $this->label . '</label>';
+        $field = '<input type="checkbox" name="' . $this->name . '" id="' . $id . '" ' . $value . ' ' . (($this->checked) ? 'checked' : '') . ' />';
         echo self::getRenderedField($label, $field, ['core-field--check']);
     }
 
@@ -74,7 +74,7 @@ class Check extends Element{
      */
     public function process(Dispatcher $dispatcher): void{
         $value = $dispatcher->getValue($this->name);
-        $dispatcher->save($this->name,$value);
+        $dispatcher->save($this->name, $value);
     }
 
     /**
@@ -83,12 +83,11 @@ class Check extends Element{
      */
     public function setValue(Dispatcher $dispatcher): void{
         $value = $dispatcher->get($this->name);
-        if ($dispatcher->isset($this->name)){
+        if ($dispatcher->isset($this->name)) {
             $checked = false;
-            if ($this->onlyBool && $value === 'on'){
+            if ($this->onlyBool && $value === 'on') {
                 $checked = true;
-            }
-            elseif ($value === $this->value){
+            } elseif ($value === $this->value) {
                 $checked = true;
             }
             $this->checked = $checked;

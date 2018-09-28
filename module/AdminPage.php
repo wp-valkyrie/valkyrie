@@ -1,10 +1,11 @@
 <?php
 
 namespace Core\Module;
+
 use Core\Module;
 use Core\RequireHandler;
 
-class AdminPage extends Module {
+class AdminPage extends Module{
 
     /**
      * Initializes the Theme Object
@@ -34,10 +35,12 @@ class AdminPage extends Module {
     /**
      * Includes the Module-Assets on the enqueue script-hook
      */
-    public function enqueue(): void{}
+    public function enqueue(): void{
+    }
 
     /**
      * Includes the Module-Assets on the adminenqueue script-hook
      */
-    public function adminEnqueue(): void{}
+    public function adminEnqueue(): void{
+    }
 }

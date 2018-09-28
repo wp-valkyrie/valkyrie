@@ -26,7 +26,7 @@ abstract class Element{
      * @param string $name The Elements Name
      */
     public function __construct(string $name){
-        if (empty($name)){
+        if (empty($name) && $name !== '0') {
             $name = uniqid();
         }
         $this->name = $name;
@@ -91,12 +91,12 @@ abstract class Element{
      * @return string The full core-field HTML
      */
     public static function getRenderedField(string $label, string $field, array $classes = []): string{
-        $out = '<div class="core-field ' . implode(' ' , $classes) . ' / js-core-target">';
-        if ($label){
+        $out = '<div class="core-field ' . implode(' ', $classes) . ' / js-core-target">';
+        if ($label) {
             $out .= '<div class="core-field__label">' . $label . '</div>';
         }
-        if ($field){
-            $out .=  '<div class="core-field__field">' . $field . '</div>';
+        if ($field) {
+            $out .= '<div class="core-field__field">' . $field . '</div>';
         }
         $out .= '</div>';
         return $out;

@@ -2,7 +2,7 @@
  * Handles the core-file Upload Button
  * Opens the wp-media Panel and allows  traditional wp uploading
  */
-jQuery(function($){
+jQuery(function ($){
 
     let body = $('body');
 
@@ -10,7 +10,7 @@ jQuery(function($){
      * Handles the ADD Upload file
      * opens the wp-media Panel
      */
-    body.on('click', '.core-file__button', function(event){
+    body.on('click', '.core-file__button', function (event){
         event.preventDefault();
 
         let button = $(this);
@@ -27,7 +27,7 @@ jQuery(function($){
                 type: button.attr('data-types').trim().split(' ')
             },
             multiple: button.attr('data-multiple') === 'true'
-        }).on('select', function(){
+        }).on('select', function (){
             let attachment = loader.state().get('selection').first().toJSON();
             button.removeClass('button').html(renderType(attachment));
             button.siblings('.core-file__input').val(attachment.id);
@@ -39,7 +39,7 @@ jQuery(function($){
      * Handles the remove Link
      * resets the Upload-Field to initial state
      */
-    body.on('click', '.core-file__remove', function(event){
+    body.on('click', '.core-file__remove', function (event){
         event.preventDefault();
         let remove = $(this),
             button = remove.siblings('.core-file__button');
@@ -55,16 +55,16 @@ jQuery(function($){
      * @returns {string} The <img tag for the given attachment
      */
     function renderType(attachment){
-        switch(attachment.type){
+        switch (attachment.type) {
             case 'image':
-                if (attachment.sizes){
+                if (attachment.sizes) {
                     if (attachment.sizes.thumbnail) {
-                        return '<img src="'+attachment.sizes.thumbnail.url+'" />';    
+                        return '<img src="' + attachment.sizes.thumbnail.url + '" />';
                     }
-                    return '<img src="'+attachment.sizes.full.url+'" />';                
+                    return '<img src="' + attachment.sizes.full.url + '" />';
                 }
             default:
-                return '<img src="'+attachment.icon+'" />';
+                return '<img src="' + attachment.icon + '" />';
         }
     }
 });

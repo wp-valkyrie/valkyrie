@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\Admin\Form;
+
 use Core\Admin\Form;
 
 /**
@@ -47,10 +48,12 @@ class Dispatcher{
      */
     private $form;
 
+
     /**
      * Dispatcher constructor.
      * @param int $type The Dispatcher Type: Dispatcher::META or Dispatcher::OPTION
      * @param string $prefix The key prefix for all saved values
+     * @param Form $form Form to dispatch
      * @throws \Exception Throws Exception if $type is not Dispatcher::META, Dispatcher::OPTION, Dispatcher::SITE_OPTION  or Dispatcher::WIDGET
      */
     public function __construct(int $type, string $prefix, Form $form){
@@ -58,13 +61,11 @@ class Dispatcher{
         $this->type = $type;
         $this->prefix = $prefix;
 
-        if ($type === self::META){
+        if ($type === self::META) {
             $this->id = get_the_ID();
-        }
-        elseif ($type === self::OPTION || $type === self::WIDGET || $type === self::SITE_OPTION){
+        } elseif ($type === self::OPTION || $type === self::WIDGET || $type === self::SITE_OPTION) {
             $this->id = null;
-        }
-        else{
+        } else {
             throw new \Exception('Type must be Dispatcher::META, Dispatcher::OPTION, Dispatcher::SITE_OPTION or Dispatcher::WIDGET');
         }
     }
@@ -74,10 +75,10 @@ class Dispatcher{
      * @param string $name The original name
      * @return string The updated name-string
      */
-    private function cleanName(string $name): string{
-        if ($this->isWidget()){
+    public function cleanName(string $name): string{
+        if ($this->isWidget()) {
             $prefix = $this->prefix . $this->form->getDelimiter();
-            if(strpos($name, $prefix) !== false){
+            if (strpos($name, $prefix) !== false) {
                 // Removes the Widget Boilerplate from the name-string
                 $suffix = $this->form->getSuffix();
                 $name = substr($name, strlen($prefix), strlen($name) - strlen($prefix) - strlen($suffix));
@@ -92,6 +93,33 @@ class Dispatcher{
      */
     public function getPrefix(): string{
         return $this->prefix;
+    }
+
+    /**
+     * Gets the dispatcher type
+     * @return int
+     */
+    public function getType(): int{
+        return $this->type;
+    }
+
+    /**
+     * Gets the form this dispatcher is attached to
+     * @return Form
+     */
+    public function getForm(): Form{
+        return $this->form;
+    }
+
+    /**
+     * Returns the current post data
+     * @return array
+     */
+    public function getPost(): array{
+        if (!$this->post) {
+            return [];
+        }
+        return $this->post;
     }
 
     /**
@@ -150,16 +178,13 @@ class Dispatcher{
      */
     public function save(string $name, $value){
         $name = $this->cleanName($name);
-        if($this->isMeta()){
+        if ($this->isMeta()) {
             return update_post_meta($this->id, $name, $value);
-        }
-        elseif($this->isOption()){
+        } elseif ($this->isOption()) {
             return update_option($name, $value);
-        }
-        elseif($this->isSiteOption()){
+        } elseif ($this->isSiteOption()) {
             return update_site_option($name, $value);
-        }
-        else{
+        } else {
             return true;
         }
     }
@@ -171,17 +196,22 @@ class Dispatcher{
      */
     public function get(string $name){
         $name = $this->cleanName($name);
-        if ($this->isMeta()){
+        if ($this->isMeta()) {
             return get_post_meta($this->id, $name, true);
-        }
-        elseif($this->isOption()){
-            return stripslashes(get_option($name));
-        }
-        elseif($this->isSiteOption()){
-            return stripslashes(get_site_option($name));
-        }
-        else{
-            if ($this->hasValue($name)){
+        } elseif ($this->isOption()) {
+            $data = get_option($name);
+            if (is_string($data)) {
+                $data = stripslashes_deep($data);
+            }
+            return $data;
+        } elseif ($this->isSiteOption()) {
+            $data = get_site_option($name);
+            if (is_string($data)) {
+                $data = stripslashes_deep($data);
+            }
+            return $data;
+        } else {
+            if ($this->hasValue($name)) {
                 return $this->post[$name];
             }
             return null;
@@ -205,7 +235,7 @@ class Dispatcher{
      */
     public function isFilled(string $key): bool{
         $key = $this->cleanName($key);
-        if ($this->hasValue($key)){
+        if ($this->hasValue($key)) {
             return !empty($this->post[$key]);
         }
         return false;
@@ -218,7 +248,7 @@ class Dispatcher{
      */
     public function getValue(string $key){
         $key = $this->cleanName($key);
-        if ($this->hasValue($key)){
+        if ($this->hasValue($key)) {
             return $this->post[$key];
         }
         return null;
@@ -229,19 +259,16 @@ class Dispatcher{
      * @param string $key The key to check for
      * @return bool True if the key exists
      */
-    public function isset(string $key){
+    public function isset(string $key): bool{
         $key = $this->cleanName($key);
         global $wpdb;
-        if ($this->isMeta()){
-            return !empty($wpdb->get_results( "SELECT * FROM $wpdb->postmeta WHERE meta_key = '$key' "));
-        }
-        elseif($this->isOption()){
+        if ($this->isMeta()) {
+            return !empty($wpdb->get_results("SELECT * FROM $wpdb->postmeta WHERE meta_key = '$key' "));
+        } elseif ($this->isOption()) {
             return get_option($key, self::NOT_EXIST) !== self::NOT_EXIST;
-        }
-        elseif($this->isSiteOption()){
+        } elseif ($this->isSiteOption()) {
             return get_site_option($key, self::NOT_EXIST) !== self::NOT_EXIST;
-        }
-        else{
+        } else {
             return $this->isset($this->post[$key]);
         }
     }

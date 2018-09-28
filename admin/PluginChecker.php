@@ -38,19 +38,17 @@ class PluginChecker{
      */
     public function checkPlugins(): void{
         $missings = $this->getMissingPlugins();
-        if (count($missings) > 0){
-            foreach ($missings as $missing){
+        if (count($missings) > 0) {
+            foreach ($missings as $missing) {
                 $string = '<p>';
                 $string .= 'Plugin named: ' . $missing['plugin']['name'] . ' ';
-                if ($missing['error'] === self::ERROR_MISSING){
+                if ($missing['error'] === self::ERROR_MISSING) {
                     $string .= 'needs to be installed.';
                     $type = Notice::ERROR;
-                }
-                elseif($missing['error'] === self::ERROR_VERSION){
+                } elseif ($missing['error'] === self::ERROR_VERSION) {
                     $string .= 'needs to get updated to at least ' . $missing['plugin']['version'] . '.';
                     $type = Notice::WARNING;
-                }
-                else{
+                } else {
                     $string .= 'is installed but needs to be activated.';
                     $type = Notice::ERROR;
                 }
@@ -68,20 +66,19 @@ class PluginChecker{
     private function getMissingPlugins(): array{
         require_once(ABSPATH . 'wp-admin/includes/plugin.php');
         $plugins = get_plugins();
-        $activePlugins = get_option( 'active_plugins' );
+        $activePlugins = get_option('active_plugins');
         $inactive = [];
-        foreach ($this->dependencies as $dependency){
+        foreach ($this->dependencies as $dependency) {
             $passed = false;
-            foreach ($plugins as $plugin){
-                if ($plugin['Name'] === $dependency['name']){
+            foreach ($plugins as $plugin) {
+                if ($plugin['Name'] === $dependency['name']) {
                     $passed = true;
-                    if (version_compare($plugin['Version'], $dependency['version']) === -1){
+                    if (version_compare($plugin['Version'], $dependency['version']) === -1) {
                         array_push($inactive, [
                             'plugin' => $dependency,
                             'error' => self::ERROR_VERSION
                         ]);
-                    }
-                    elseif(!in_array($dependency['dir'],$activePlugins)){
+                    } elseif (!in_array($dependency['dir'], $activePlugins)) {
                         array_push($inactive, [
                             'plugin' => $dependency,
                             'error' => self::ERROR_INACTIVE
@@ -89,7 +86,7 @@ class PluginChecker{
                     }
                 }
             }
-            if (!$passed){
+            if (!$passed) {
                 array_push($inactive, [
                     'plugin' => $dependency,
                     'error' => self::ERROR_MISSING

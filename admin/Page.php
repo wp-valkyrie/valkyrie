@@ -61,12 +61,12 @@ class Page{
     /**
      * AdminPage constructor.
      * @param string $title The text to be used for the menu.
-     * @param \Closure $handler  The function to be called to output the content for this page.
+     * @param \Closure $handler The function to be called to output the content for this page.
      * @param string $capability The capability required for this menu to be displayed to the user.
      * @param string $icon Dashicon String
      * @param int $position Position in the Admin-Panel
      */
-    public function __construct(string $title, \Closure $handler, string $capability = 'read', string $icon = 'dashicons-heart', int $position = 1000){
+    public function __construct(string $title, \Closure $handler, string $capability = 'read', string $icon = 'dashicons-admin-generic', int $position = 1000){
         $this->title = $title;
         $this->capability = $capability;
         $this->childPages = [];
@@ -114,18 +114,16 @@ class Page{
      * @param Page|null $page the parent-page this page gets attached to
      */
     public function dispatch(Page $page = null): void{
-        if (is_null($page)){
-            if ($this->wpParent){
+        if (is_null($page)) {
+            if ($this->wpParent) {
                 add_submenu_page($this->wpParent, $this->title, $this->title, $this->capability, $this->getSlug(), [$this, 'pageHandler']);
-            }
-            else{
+            } else {
                 add_menu_page($this->title, $this->title, $this->capability, $this->getSlug(), [$this, 'pageHandler'], $this->icon, $this->position);
             }
-        }
-        else{
+        } else {
             add_submenu_page($page->getSlug(), $this->title, $this->title, $this->capability, $this->getSlug(), [$this, 'pageHandler']);
         }
-        foreach ($this->childPages as $childPage){
+        foreach ($this->childPages as $childPage) {
             $childPage->dispatch($this);
         }
     }

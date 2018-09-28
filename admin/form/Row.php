@@ -35,7 +35,7 @@ class Row extends Element{
      */
     public function getLogic(): array{
         $logic = parent::getLogic();
-        foreach ($this->columns as $ccolumn){
+        foreach ($this->columns as $ccolumn) {
             $logic = array_merge($logic, $ccolumn->getLogic());
         }
         return $logic;
@@ -46,7 +46,7 @@ class Row extends Element{
      * @param string $prefix the name prefix
      */
     public function prefixName(string $prefix): void{
-        foreach ($this->columns as $column){
+        foreach ($this->columns as $column) {
             $column->prefixName($prefix);
         }
     }
@@ -63,8 +63,8 @@ class Row extends Element{
      * Processes the Row with all its Column objects on Form-Submit
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void{
-        foreach ($this->columns as $column){
+    public function process(Dispatcher $dispatcher): void{
+        foreach ($this->columns as $column) {
             $column->process($dispatcher);
         }
     }
@@ -74,8 +74,8 @@ class Row extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
-        echo '<div class="core-row / js-core-target" data-name="'.$this->name.'">';
-        foreach ($this->columns as $column){
+        echo '<div class="core-row / js-core-target" data-name="' . $this->name . '">';
+        foreach ($this->columns as $column) {
             $column->render($dispatcher);
         }
         echo '</div>';
@@ -86,7 +86,7 @@ class Row extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function setValue(Dispatcher $dispatcher): void{
-        foreach ($this->columns as $column){
+        foreach ($this->columns as $column) {
             $column->setValue($dispatcher);
         }
     }

@@ -37,8 +37,8 @@ abstract class Module{
         $this->priority = $priority;
         $this->requireFiles();
 
-        add_action( 'wp_enqueue_scripts', [$this, 'enqueue']);
-        add_action( 'admin_enqueue_scripts', [$this, 'adminEnqueue']);
+        add_action('wp_enqueue_scripts', [$this, 'enqueue']);
+        add_action('admin_enqueue_scripts', [$this, 'adminEnqueue']);
     }
 
     /**

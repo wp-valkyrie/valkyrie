@@ -1,4 +1,5 @@
 <?php
+
 namespace Core\Admin\Form;
 
 /**
@@ -48,11 +49,11 @@ class Area extends Element{
     public function render(Dispatcher $dispatcher): void{
         $this->args['name'] = $this->name;
         $argsString = '';
-        foreach ($this->args as $attribute => $value){
-            $argsString .= ' ' . $attribute . '="'. addslashes($value) .'"';
+        foreach ($this->args as $attribute => $value) {
+            $argsString .= ' ' . $attribute . '="' . addslashes($value) . '"';
         }
-        $label = '<label for="' . $this->args['id'] . '">' . $this->label .  '</label>';
-        $input = '<textarea ' . $argsString .  '>' . $this->value . '</textarea> ';
+        $label = '<label for="' . $this->args['id'] . '">' . $this->label . '</label>';
+        $input = '<textarea ' . $argsString . '>' . $this->value . '</textarea> ';
 
         echo self::getRenderedField($label, $input);
     }
@@ -61,9 +62,9 @@ class Area extends Element{
      * Saves the Textarea-Field on Form-Submit
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void{
-         $value = $dispatcher->getValue($this->name);
-         $dispatcher->save($this->name,$value);
+    public function process(Dispatcher $dispatcher): void{
+        $value = $dispatcher->getValue($this->name);
+        $dispatcher->save($this->name, $value);
     }
 
     /**

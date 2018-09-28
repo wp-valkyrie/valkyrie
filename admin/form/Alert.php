@@ -44,12 +44,12 @@ class Alert extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
-        if (!$this->render && is_bool($this->condition)){
-            if ($this->condition){
+        if (!$this->render && is_bool($this->condition)) {
+            if ($this->condition) {
                 $this->render = true;
             }
         }
-        if ($this->render){
+        if ($this->render) {
             echo $this->notice;
         }
     }
@@ -59,7 +59,7 @@ class Alert extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function process(Dispatcher $dispatcher): void{
-        if ($this->condition === self::FORM_SAVED){
+        if ($this->condition === self::FORM_SAVED) {
             $this->render = true;
         }
     }
@@ -68,5 +68,6 @@ class Alert extends Element{
      * Allows the rendering if the condition is self::FORM_SAVED
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function setValue(Dispatcher $dispatcher): void{}
+    public function setValue(Dispatcher $dispatcher): void{
+    }
 }

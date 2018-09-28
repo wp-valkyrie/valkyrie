@@ -39,7 +39,7 @@ class Button extends Element{
      * @param string $id the button id
      * @param string $type The buttons type attribute
      */
-    public function __construct(string $text, array $classes = [],  string $id = '', string $type = 'submit'){
+    public function __construct(string $text, array $classes = [], string $id = '', string $type = 'submit'){
         parent::__construct('');
         $this->text = $text;
         $this->classes = array_unique(array_merge($classes, [
@@ -54,18 +54,20 @@ class Button extends Element{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
-        echo '<button id="' . $this->id . '" class="' . implode(' ', $this->classes) . '" ' . 'type="' . $this->type . '"'.'>' . $this->text . '</button>';
+        echo '<button id="' . $this->id . '" class="' . implode(' ', $this->classes) . '" ' . 'type="' . $this->type . '"' . '>' . $this->text . '</button>';
     }
 
     /**
      * Buttons do nothing on Form-Submit
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void{}
+    public function process(Dispatcher $dispatcher): void{
+    }
 
     /**
      * Buttons do not have a value
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function setValue(Dispatcher $dispatcher): void{}
+    public function setValue(Dispatcher $dispatcher): void{
+    }
 }

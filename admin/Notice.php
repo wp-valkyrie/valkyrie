@@ -47,7 +47,7 @@ class Notice{
      * Renders the Notice
      */
     public function render(){
-       echo $this;
+        echo $this;
     }
 
     /**
@@ -57,7 +57,7 @@ class Notice{
      */
     public function __toString(): string{
         $class = 'notice';
-        switch ($this->type){
+        switch ($this->type) {
             case self::SUCCESS :
                 $class .= ' notice-success';
                 break;
@@ -68,7 +68,7 @@ class Notice{
                 $class .= ' notice-error';
                 break;
         }
-        if ($this->dismissible){
+        if ($this->dismissible) {
             $class .= ' is-dismissible';
         }
         return '<div class="' . $class . '">' . apply_filters('the_content', $this->content) . '</div>';

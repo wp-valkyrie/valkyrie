@@ -67,13 +67,13 @@ class Core{
         add_action('after_setup_theme', [self::class, 'load'], PHP_INT_MAX);
 
         // Load Meta Boxes
-        add_action( 'add_meta_boxes', [self::class, 'renderMetas'], PHP_INT_MAX);
-        add_action( 'save_post', [self::class, 'saveMetas'], PHP_INT_MAX);
+        add_action('add_meta_boxes', [self::class, 'renderMetas'], PHP_INT_MAX);
+        add_action('save_post', [self::class, 'saveMetas'], PHP_INT_MAX);
 
 
         // Load Admin Pages
-        add_action( 'admin_menu', [self::class, 'dispatchPages'], PHP_INT_MAX); // Normal Pages
-        add_action( 'network_admin_menu', [self::class, 'dispatchNetworkPages'], PHP_INT_MAX); // Network admin pages
+        add_action('admin_menu', [self::class, 'dispatchPages'], PHP_INT_MAX); // Normal Pages
+        add_action('network_admin_menu', [self::class, 'dispatchNetworkPages'], PHP_INT_MAX); // Network admin pages
 
         // Load Notices
         add_action('admin_notices', [self::class, 'renderNotices'], PHP_INT_MAX);
@@ -86,7 +86,7 @@ class Core{
      * Renders the MetaBoxes in the admin-panel
      */
     public static function renderMetas(): void{
-        foreach (self::$metas as $meta){
+        foreach (self::$metas as $meta) {
             $meta->render();
         }
     }
@@ -95,7 +95,7 @@ class Core{
      * Saves the MetaBoxes on Form-Submit
      */
     public static function saveMetas(): void{
-        foreach (self::$metas as $meta){
+        foreach (self::$metas as $meta) {
             $meta->dispatch();
         }
     }
@@ -104,8 +104,8 @@ class Core{
      * Renders the AdminPages in the admin-panel
      */
     public static function dispatchPages(): void{
-        foreach (self::$pages as $page){
-            if (!$page->isMultisite()){
+        foreach (self::$pages as $page) {
+            if (!$page->isMultisite()) {
                 $page->dispatch();
             }
         }
@@ -115,8 +115,8 @@ class Core{
      * Renders the NetworkAdminPages in the admin-panel
      */
     public static function dispatchNetworkPages(): void{
-        foreach (self::$pages as $page){
-            if ($page->isMultisite()){
+        foreach (self::$pages as $page) {
+            if ($page->isMultisite()) {
                 $page->dispatch();
             }
         }
@@ -126,7 +126,7 @@ class Core{
      * Renders all Admin Notices in the admin-panel
      */
     public static function renderNotices(): void{
-        foreach (self::$notices as $notice){
+        foreach (self::$notices as $notice) {
             $notice->render();
         }
     }
@@ -135,7 +135,7 @@ class Core{
      * Registers all Widgets in the admin-panel
      */
     public static function registerWidgets(): void{
-        foreach (self::$widgets as $widget){
+        foreach (self::$widgets as $widget) {
             register_widget($widget->getWidget());
         }
     }
@@ -155,10 +155,10 @@ class Core{
      * @param bool $multisite True if this page is only rendered on the
      */
     public static function addPage(Page $page, $parent = false, $multisite = false): void{
-        if ($parent){
+        if ($parent) {
             $page->pushWpParent($parent);
         }
-        if ($multisite){
+        if ($multisite) {
             $page->setMultisite(true);
         }
         array_push(self::$pages, $page);
@@ -193,7 +193,7 @@ class Core{
      */
     public static function load(): void{
         self::orderModules();
-        foreach (self::$modules as $module){
+        foreach (self::$modules as $module) {
             $module->init();
         }
     }
@@ -202,13 +202,13 @@ class Core{
      * Orders the Modules-Array by its priority
      */
     private static function orderModules(): void{
-        uasort(self::$modules, function(Module $a, Module $b){
+        uasort(self::$modules, function (Module $a, Module $b){
             $a = $a->getPriority();
             $b = $b->getPriority();
-            if ($a == $b){
+            if ($a == $b) {
                 return 0;
             }
-            return ($a < $b)? -1 : 1;
+            return ($a < $b) ? -1 : 1;
         });
     }
 }

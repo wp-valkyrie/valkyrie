@@ -40,10 +40,12 @@ class AdminNotice extends Module{
     /**
      * Includes the Module-Assets on the enqueue script-hook
      */
-    public function enqueue(): void {}
+    public function enqueue(): void{
+    }
 
     /**
      * Includes the Module-Assets on the adminenqueue script-hook
      */
-    public function adminEnqueue(): void {}
+    public function adminEnqueue(): void{
+    }
 }

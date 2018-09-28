@@ -30,10 +30,10 @@ class Select extends Selectable{
      */
     public function render(Dispatcher $dispatcher): void{
         $id = uniqid();
-        $label = '<label for="' . $id . '">' . $this->label .  '</label>';
+        $label = '<label for="' . $id . '">' . $this->label . '</label>';
         $select = '<select id="' . $id . '" name="' . $this->name . '">';
-        foreach ($this->getOptions() as $option){
-            $select .= '<option value="'.$option->value.'" ' . (($option->checked)?'selected':'') . '>' . $option->label . '</option>';
+        foreach ($this->getOptions() as $option) {
+            $select .= '<option value="' . $option->value . '" ' . (($option->checked) ? 'selected' : '') . '>' . $option->label . '</option>';
         }
         $select .= '</select>';
 
@@ -44,10 +44,10 @@ class Select extends Selectable{
      * Saves the Selectbox on Form-Submit
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void{
-         $value = $dispatcher->getValue($this->name);
-         $dispatcher->save($this->name,$value);
-     }
+    public function process(Dispatcher $dispatcher): void{
+        $value = $dispatcher->getValue($this->name);
+        $dispatcher->save($this->name, $value);
+    }
 
     /**
      * Sets the individual Elements value based on the Dispatcher
@@ -55,12 +55,11 @@ class Select extends Selectable{
      */
     public function setValue(Dispatcher $dispatcher): void{
         $value = $dispatcher->get($this->name);
-        if ($value){
-            foreach ($this->getOptions() as $option){
-                if ($option->value === $value){
+        if ($value) {
+            foreach ($this->getOptions() as $option) {
+                if ($option->value === $value) {
                     $option->checked = true;
-                }
-                else{
+                } else {
                     $option->checked = false;
                 }
             }

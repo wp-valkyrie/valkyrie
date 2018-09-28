@@ -27,7 +27,8 @@ class Html extends Element{
      * HTML-Elements do nothing on Form-Submit
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void{}
+    public function process(Dispatcher $dispatcher): void{
+    }
 
     /**
      * Renders the HTML content
@@ -41,5 +42,6 @@ class Html extends Element{
      * HTML-Elements do not have a value
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-    public function setValue(Dispatcher $dispatcher): void{}
+    public function setValue(Dispatcher $dispatcher): void{
+    }
 }

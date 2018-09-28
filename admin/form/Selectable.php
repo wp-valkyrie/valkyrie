@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\Admin\Form;
+
 use Core\Admin\Form\Selectable\Option;
 
 /**
@@ -8,7 +9,7 @@ use Core\Admin\Form\Selectable\Option;
  * @package Core\Wordpress\Form
  * @abstract
  */
-abstract class Selectable extends Element {
+abstract class Selectable extends Element{
 
     /**
      * Array of Option objects

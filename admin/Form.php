@@ -71,7 +71,7 @@ class Form{
      * @param Dispatcher $dispatcher The Dispatcher-Object
      */
     private function process(Dispatcher $dispatcher): void{
-        foreach ($this->items as $item){
+        foreach ($this->items as $item) {
             $item->process($dispatcher);
         }
     }
@@ -82,7 +82,7 @@ class Form{
      * @param Dispatcher $dispatcher
      */
     public function prefix(Dispatcher $dispatcher): void{
-        foreach ($this->items as $item){
+        foreach ($this->items as $item) {
             $item->prefixName($dispatcher->getPrefix() . $this->delimiter);
         }
     }
@@ -91,7 +91,7 @@ class Form{
      * Adds a suffix to all Elements
      */
     public function suffix(): void{
-        foreach ($this->items as $item){
+        foreach ($this->items as $item) {
             $item->suffixName($this->suffix);
         }
     }
@@ -102,7 +102,7 @@ class Form{
      */
     private function fetchLogic(): void{
         $logic = [];
-        foreach ($this->items as $item){
+        foreach ($this->items as $item) {
             $logic = array_merge($logic, $item->getLogic());
         }
         $this->logic = $logic;
@@ -112,11 +112,12 @@ class Form{
      * Injects the Form-Logic as a Script-Tag into the HTML
      * gets called in the rendering method
      * @param Dispatcher $dispatcher The Dispatcher-Object
-     * @todo cleanup this function, its kind of messy
+     * @todo implement logic
      */
     private function injectLogic(Dispatcher $dispatcher): void{
         return;
-        if ($dispatcher->isWidget()){
+        /*
+        if ($dispatcher->isWidget()) {
             return;
         }
         $json = json_encode($this->logic);
@@ -124,10 +125,11 @@ class Form{
         $prefix = $dispatcher->getPrefix() . $this->delimiter;
         ?>
         <script type="application/javascript">
-            let <?php echo $id;?> = new Form("<?php echo $this->id;?>", "<?php echo $prefix;?>", <?php echo $json;?>.map((item)=>new Condition(item.field, item.value, item.not, item.elementName)))
+            let <?php echo $id;?> = new Form("<?php echo $this->id;?>", "<?php echo $prefix;?>", <?php echo $json;?>.map((item) => new Condition(item.field, item.value, item.not, item.elementName)))
             <?php echo $id;?>.init();
         </script>
         <?php
+        */
     }
 
     /**
@@ -135,29 +137,27 @@ class Form{
      * @param Dispatcher $dispatcher The Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
-        if ($dispatcher->isOption() || $dispatcher->isSiteOption()){
-            echo '<form id="'. sanitize_title($this->id) .'" action="'.'#'.sanitize_title($this->id).'" method="post">';
-        }
-        else{
-            echo '<div id="'. sanitize_title($this->id) .'">';
+        if ($dispatcher->isOption() || $dispatcher->isSiteOption()) {
+            echo '<form id="' . sanitize_title($this->id) . '" action="' . '#' . sanitize_title($this->id) . '" method="post">';
+        } else {
+            echo '<div id="' . sanitize_title($this->id) . '">';
         }
 
-        foreach ($this->items as $item){
+        foreach ($this->items as $item) {
             $item->setValue($dispatcher);
             $item->render($dispatcher);
         }
 
         // Identifier for this Form
-        echo '<input type="hidden" name="core-form" value="'.$this->id.'">';
+        echo '<input type="hidden" name="core-form" value="' . $this->id . '">';
 
         // WP-Nonce
         wp_nonce_field(__FILE__, $this->getNonceString());
         $this->injectLogic($dispatcher);
 
-        if ($dispatcher->isOption() || $dispatcher->isSiteOption()){
+        if ($dispatcher->isOption() || $dispatcher->isSiteOption()) {
             echo '</form>';
-        }
-        else{
+        } else {
             echo '</div>';
         }
     }
@@ -169,32 +169,32 @@ class Form{
      * @param bool $render True if the form should be rendered
      */
     public function dispatch(int $type = null, bool $process = true, bool $render = true): void{
-        if (is_null($type)){
+        if (is_null($type)) {
             $type = Dispatcher::OPTION;
-            if (is_network_admin()){
+            if (is_network_admin()) {
                 $type = Dispatcher::SITE_OPTION;
             }
-            if (get_current_screen()->parent_base === 'edit'){
+            if (get_current_screen()->parent_base === 'edit') {
                 $type = Dispatcher::META;
             }
         }
-        try{
+        try {
             $dispatcher = new Dispatcher($type, $this->id, $this);
             $this->prefix($dispatcher);
             $this->suffix();
-            if ($process){
-                if (isset($_POST['core-form']) && $_POST['core-form'] === $this->id){
-                    if (check_admin_referer(__FILE__, $this->getNonceString())){
+            if ($process) {
+                if (isset($_POST['core-form']) && $_POST['core-form'] === $this->id) {
+                    if (check_admin_referer(__FILE__, $this->getNonceString())) {
                         $dispatcher->setPost($_POST);
                         $this->process($dispatcher);
                     }
                 }
             }
-            if ($render){
+            if ($render) {
                 $this->fetchLogic();
                 $this->render($dispatcher);
             }
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             echo $e->getMessage();
         }
     }

@@ -40,7 +40,7 @@ class Meta{
      * @param string $id The Meta-Box ID-String
      * @param string $title The Meta-Box Title
      * @param Form $form The main Form Object to be executed inside the Meta-Box
-     * @param string|array|\WP_Screen|null $screen  The screen or screens on which to show the box
+     * @param string|array|\WP_Screen|null $screen The screen or screens on which to show the box
      * @see https://developer.wordpress.org/reference/functions/add_meta_box/
      */
     public function __construct(string $id, string $title, Form $form, $screen = null){
@@ -55,7 +55,7 @@ class Meta{
      */
     public function render(): void{
         $form = $this->form;
-        add_meta_box($this->id, $this->title, function($test) use ($form){
+        add_meta_box($this->id, $this->title, function ($test) use ($form){
             $form->dispatch(null, false, true);
         }, $this->screen);
     }
@@ -64,6 +64,6 @@ class Meta{
      * Processses the Form on Form-Submit
      */
     public function dispatch(): void{
-        $this->form->dispatch(Dispatcher::META, true,false);
+        $this->form->dispatch(Dispatcher::META, true, false);
     }
 }

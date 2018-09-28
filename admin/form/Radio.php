@@ -22,10 +22,10 @@ class Radio extends Selectable{
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
     public function render(Dispatcher $dispatcher): void{
-        foreach ($this->getOptions() as $option){
+        foreach ($this->getOptions() as $option) {
             $id = uniqid();
-            $label = '<label for="' . $id . '">' . $option->label  . '</label>';
-            $radio = '<input id="' . $id . '" type="radio" name="' . $this->name . '" value="' . $option->value . '" ' . (($option->checked)?'checked':'') . ' />';
+            $label = '<label for="' . $id . '">' . $option->label . '</label>';
+            $radio = '<input id="' . $id . '" type="radio" name="' . $this->name . '" value="' . $option->value . '" ' . (($option->checked) ? 'checked' : '') . ' />';
             echo $radio . $label;
         }
     }
@@ -34,10 +34,10 @@ class Radio extends Selectable{
      * Saves the Tick-Box on Form-Submit
      * @param Dispatcher $dispatcher The current Elements Dispatcher-Object
      */
-     public function process(Dispatcher $dispatcher): void{
-         $value = $dispatcher->getValue($this->name);
-         $dispatcher->save($this->name,$value);
-     }
+    public function process(Dispatcher $dispatcher): void{
+        $value = $dispatcher->getValue($this->name);
+        $dispatcher->save($this->name, $value);
+    }
 
     /**
      * Sets the individual Elements value based on the Dispatcher
@@ -45,12 +45,11 @@ class Radio extends Selectable{
      */
     public function setValue(Dispatcher $dispatcher): void{
         $value = $dispatcher->get($this->name);
-        if ($value){
-            foreach ($this->getOptions() as $option){
-                if ($option->value === $value){
+        if ($value) {
+            foreach ($this->getOptions() as $option) {
+                if ($option->value === $value) {
                     $option->checked = true;
-                }
-                else{
+                } else {
                     $option->checked = false;
                 }
             }
