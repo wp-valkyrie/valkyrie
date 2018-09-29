@@ -5,6 +5,7 @@ namespace Core;
 
 use Core\Form\Dispatcher;
 use Core\Form\Element;
+use Core\Form\Element\Link;
 
 /**
  * Form-Builder for the WP Backend
@@ -48,6 +49,7 @@ class Form{
      */
     public function __construct(string $id){
         $this->id = $id;
+        $this->prepare();
     }
 
     /**
@@ -130,6 +132,13 @@ class Form{
         </script>
         <?php
         */
+    }
+
+    /**
+     * Fires all static prepares for all needed elements
+     */
+    private function prepare(): void{
+        Link::prepare();
     }
 
     /**

@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .core-field {
   display: block;
   margin: 20px 0; }
@@ -154,3 +155,52 @@
 
 .core-editor__template, .core-editor__settings {
   display: none; }
+
+.core-link::after {
+  content: '';
+  display: table;
+  clear: both; }
+
+.core-link__container {
+  float: left;
+  display: flex;
+  align-items: center;
+  padding: 1em;
+  border: 1px solid #ccc;
+  margin: 1em 0;
+  background: #fff; }
+
+.core-link__area, .core-link__fields {
+  display: none; }
+
+.core-link__display {
+  display: flex;
+  align-items: flex-end; }
+
+.core-link__link:first-child {
+  padding-left: 1em; }
+
+.core-link__clear {
+  margin-left: 1em;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #252525;
+  cursor: pointer;
+  position: relative; }
+  .core-link__clear:first-child {
+    display: none; }
+  .core-link__clear:hover {
+    color: red; }
+  .core-link__clear::before {
+    content: '✕';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%); }

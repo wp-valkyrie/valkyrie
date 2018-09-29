@@ -51,20 +51,20 @@ jQuery(function ($){
 
     /**
      * Renders the Attachment image depending on its type
-     * @param (object) attachment The attachment object
+     * @param {object} attachment The attachment object
      * @returns {string} The <img tag for the given attachment
      */
     function renderType(attachment){
-        switch (attachment.type) {
-            case 'image':
-                if (attachment.sizes) {
-                    if (attachment.sizes.thumbnail) {
-                        return '<img src="' + attachment.sizes.thumbnail.url + '" />';
-                    }
-                    return '<img src="' + attachment.sizes.full.url + '" />';
+        if (attachment.type === 'image') {
+            if (attachment.sizes) {
+                if (attachment.sizes.thumbnail) {
+                    return '<img src="' + attachment.sizes.thumbnail.url + '" />';
                 }
-            default:
-                return '<img src="' + attachment.icon + '" />';
+                return '<img src="' + attachment.sizes.full.url + '" />';
+            }
+            return '<img src="' + attachment.icon + '" />';
+        } else {
+            return '<img src="' + attachment.icon + '" />';
         }
     }
 });
