@@ -1,5 +1,37 @@
 jQuery(function ($){
 
+    // General Form handlers
+    //
+
+    /**
+     * Removes and rebuilds all currently active wp-editors within
+     * a core-form module
+     */
+    function rebuildEditors(){
+        $('.core-form .core-editor').each(function(){
+            const current = $(this);
+            const id = current.attr('data-editor-id') + Math.floor((Math.random() * Math.pow(10, 16)));
+            const settings = JSON.parse(current.children('.core-editor__settings').text());
+            const template = current.children('.core-editor__template');
+            const area = current.children('.core-editor__area');
+            if (area.children().length > 0){
+                template.find('textarea').val(area.find('textarea').val());
+            }
+            area.html(template.html());
+            const field = area.children('.core-editor__wrapper');
+            if (field.length > 0){
+                field.attr('id', id).removeAttr('disabled');
+                wp.editor.initialize(id, settings);
+            }
+        });
+    }
+    // Initialises all editors
+    rebuildEditors();
+
+
+    // Handle Repeater Data
+    //
+
     const repeaterAddSelector = '.core-repeater > .core-repeater__menu .core-repeater__button';
     const repeatRemoveSelector = '.core-repeater > .core-repeater__container > .core-repeater__item > .core-repeater__button';
     const doc = $(document);
@@ -39,6 +71,7 @@ jQuery(function ($){
         let i = 0;
         $(this).children('.core-repeater__item').each(function (){
             alignNames($(this), i);
+            rebuildEditors();
             i++;
         });
     });
@@ -61,6 +94,7 @@ jQuery(function ($){
 
         // Append Template to the repeater
         tpl.hide().appendTo(container).slideDown(300);
+        rebuildEditors();
     });
 
     /**

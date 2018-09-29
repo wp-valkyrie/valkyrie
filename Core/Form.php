@@ -143,10 +143,12 @@ class Form{
             echo '<div id="' . sanitize_title($this->id) . '">';
         }
 
+        echo '<div class="core-form">';
         foreach ($this->items as $item) {
             $item->setValue($dispatcher);
             $item->render($dispatcher);
         }
+        echo '</div>';
 
         // Identifier for this Form
         echo '<input type="hidden" name="core-form" value="' . $this->id . '">';

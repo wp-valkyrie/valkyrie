@@ -27,6 +27,8 @@ $wp-border: #e5e5e5;
     }
 }
 
+// core-form
+
 // core-field
 .core-field{
     display: block;
@@ -199,6 +201,14 @@ $wp-border: #e5e5e5;
     }
 
     &__template{
+        display: none;
+    }
+}
+
+
+.core-editor{
+    &__template,
+    &__settings{
         display: none;
     }
 }

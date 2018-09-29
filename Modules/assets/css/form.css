@@ -151,3 +151,6 @@
       opacity: 1; }
   .core-repeater__template {
     display: none; }
+
+.core-editor__template, .core-editor__settings {
+  display: none; }

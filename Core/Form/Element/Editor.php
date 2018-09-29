@@ -31,6 +31,12 @@ class Editor extends Element{
     private $label;
 
     /**
+     * Editor ID
+     * @var string
+     */
+    private $id;
+
+    /**
      * Editor constructor.
      * @param string $name The editors name-attribute
      * @param string $label The editors label-string
@@ -42,6 +48,7 @@ class Editor extends Element{
         parent::__construct($name);
         $this->content = $content;
         $this->label = $label;
+        $this->id = uniqid();
         $this->options = wp_parse_args($options, []);
     }
 
@@ -51,7 +58,17 @@ class Editor extends Element{
      */
     public function render(Dispatcher $dispatcher): void{
         ob_start();
-        wp_editor($this->content, $this->name, $this->options);
+        ?>
+        <div class="core-editor" data-editor-name="<?php echo $this->name;?>" data-editor-id="<?php echo $this->id;?>">
+            <textarea class="core-editor__settings" disabled>
+                <?php echo json_encode(wp_parse_args($this->options, self::getDefaultSettings()));?>
+            </textarea>
+            <div class="core-editor__template">
+                <textarea disabled class="core-editor__wrapper" name="<?php echo $this->name;?>"><?php echo $this->content;?></textarea>
+            </div>
+            <div class="core-editor__area"></div>
+        </div>
+        <?php
         $input = ob_get_clean();
         $label = '<label>' . $this->label . '</label>';
         echo self::getRenderedField($label, $input);
@@ -72,5 +89,20 @@ class Editor extends Element{
      */
     public function setValue(Dispatcher $dispatcher): void{
         $this->content = $dispatcher->get($this->name);
+    }
+
+    /**
+     * Returns the default settings meant to be given to a javascript
+     * function as JSON
+     * @return array
+     */
+    public static function getDefaultSettings(): array{
+        return [
+            'mediaButtons' => true,
+            'tinymce' => [
+                'toolbar1' => 'bold,italic,bullist,numlist,link,blockquote,alignleft,aligncenter,alignright,strikethrough,hr,forecolor,pastetext,removeformat,codeformat,undo,redo,formatselect'
+            ],
+            'quicktags' => true
+        ];
     }
 }
