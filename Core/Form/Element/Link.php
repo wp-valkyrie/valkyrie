@@ -38,8 +38,12 @@ class Link extends Element{
         if (self::$prepared) {
             return;
         }
-        require_once ABSPATH . 'wp-includes/class-wp-editor.php';
-        \_WP_Editors::wp_link_dialog();
+        if (is_admin()){
+            require_once ABSPATH . 'wp-includes/class-wp-editor.php';
+            add_action('admin_footer', function(){
+                \_WP_Editors::wp_link_dialog();
+            });
+        }
     }
 
     /**
