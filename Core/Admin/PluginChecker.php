@@ -25,12 +25,14 @@ class PluginChecker{
      * @param string $name Plugin Name
      * @param string $dir Plugin-Directory
      * @param string $version Minimal Plugin-Version
+     * @param string|null $uri Plugin-Site
      */
-    public function addPlugin(string $name, string $dir, string $version = '0'): void{
+    public function addPlugin(string $name, string $dir, string $version = '0', string $uri = null): void{
         array_push($this->dependencies, [
             'name' => $name,
             'dir' => $dir,
-            'version' => $version
+            'version' => $version,
+            'uri' => $uri
         ]);
     }
 
@@ -42,17 +44,28 @@ class PluginChecker{
         $missings = $this->getMissingPlugins();
         if (count($missings) > 0) {
             foreach ($missings as $missing) {
+                $pluginName = '<strong>' . $missing['plugin']['name'] . '</strong>';
+
+                $stringInstall = sprintf(__('Plugin named: %s needs to be installed.'), $pluginName);
+                $stringUpdate = sprintf(__('Plugin named: %s needs to get updated to at least %s.'), $pluginName, '<strong>' . $missing['plugin']['version'] . '</strong>');
+                $stringInactive = sprintf(__('Plugin named: %s is installed but needs to be activated.'), $pluginName);
+
                 $string = '<p>';
-                $string .= 'Plugin named: ' . $missing['plugin']['name'] . ' ';
                 if ($missing['error'] === self::ERROR_MISSING) {
-                    $string .= 'needs to be installed.';
+                    $string .= $stringInstall;
                     $type = Notice::ERROR;
+                    if (!is_null($missing['plugin']['uri'])) {
+                        $string .= sprintf(' <a href="%s">%s</a>', esc_url($missing['plugin']['uri']), __('Visit plugin site'));
+                    }
                 } elseif ($missing['error'] === self::ERROR_VERSION) {
-                    $string .= 'needs to get updated to at least ' . $missing['plugin']['version'] . '.';
+                    $string .= $stringUpdate;
                     $type = Notice::WARNING;
                 } else {
-                    $string .= 'is installed but needs to be activated.';
+                    $string .= $stringInactive;
                     $type = Notice::ERROR;
+                    if (current_user_can('activate_plugins')) {
+                        $string .= sprintf(' <a href="%s">%s</a>', wp_nonce_url(network_admin_url('plugins.php?action=activate&plugin=' . $missing['plugin']['dir']), 'activate-plugin_' . $missing['plugin']['dir']), __('Activate Plugin'));
+                    }
                 }
                 $string .= '</p>';
                 System::addNotice(new Notice($string, $type));
