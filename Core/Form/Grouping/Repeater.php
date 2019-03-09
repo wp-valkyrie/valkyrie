@@ -88,7 +88,7 @@ class Repeater extends Group{
 
         // Echo Repeating-Menu
         echo '<div class="core-repeater__menu">';
-        echo '<button class="core-repeater__button / button">' . sprintf('Add %s', $this->itemName) . '</button>';
+        echo '<button class="core-repeater__button / button">' . sprintf(__('Add %s'), $this->itemName) . '</button>';
         echo '</div>';
         echo '</div>';
     }
@@ -98,7 +98,7 @@ class Repeater extends Group{
      * @return string
      */
     private function getRemoveButton(): string{
-        return '<button class="core-repeater__button / button" tabindex="-1">' . sprintf('Remove %s', $this->itemName) . '</button>';
+        return '<button class="core-repeater__button / button" tabindex="-1">' . sprintf(__('Remove %s'), $this->itemName) . '</button>';
     }
 
     /**
