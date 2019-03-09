@@ -10,6 +10,12 @@ namespace Core;
 abstract class Module{
 
     /**
+     * Is true, if the module was laoded successfully
+     * @var bool
+     */
+    private $loaded = false;
+
+    /**
      * The Module Name
      * @var string
      */
@@ -47,6 +53,22 @@ abstract class Module{
 
         add_action('wp_enqueue_scripts', [$this, 'enqueue']);
         add_action('admin_enqueue_scripts', [$this, 'adminEnqueue']);
+    }
+
+    /**
+     * Boots ands executes the Module
+     */
+    public final function boot(): void{
+        $this->loaded = true;
+        $this->init();
+    }
+
+    /**
+     * Returns the Modules loading status
+     * @return bool
+     */
+    public final function isLoaded(): bool{
+        return $this->loaded;
     }
 
     /**
@@ -121,9 +143,9 @@ abstract class Module{
      * @param array $activates list of currently active modules
      * @return bool
      */
-    public static function checkDependencyStatus(Module $module, array $activates): bool {
-        foreach ($module->getDependencies() as $dep){
-            if (!in_array($dep, $activates)){
+    public static function checkDependencyStatus(Module $module, array $activates): bool{
+        foreach ($module->getDependencies() as $dep) {
+            if (!in_array($dep, $activates)) {
                 return false;
             }
         }

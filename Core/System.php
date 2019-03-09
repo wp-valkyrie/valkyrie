@@ -194,37 +194,46 @@ class System{
      * ignoring modules which do not have all their dependencies
      */
     public static function load(): void{
-        self::orderModules();
+        $modules = self::getOrderModules();
         $activates = [];
+        /** @var Module[] $queue */
         $queue = [];
-        foreach (self::$modules as $module) {
-
-            // Check if dependencies are met
-            if (Module::checkDependencyStatus($module, $activates)){
-                array_push($activates, $module->getName());
-                $module->init();
-
-                // Check if any queued modules can be loaded
-                foreach ($queue as $key => $queuedModule){
-                    if (Module::checkDependencyStatus($queuedModule, $activates)){
-                        $queuedModule->init();
-                        array_push($activates, $queuedModule->getName());
-                        unset($queue[$key]);
-                    }
+        $notDone = true;
+        while ($notDone) {
+            $notDone = false;
+            foreach ($modules as $module) {
+                if ($module->isLoaded()) {
+                    continue;
                 }
-            }
-            else{
-                // Add to the queue
-                array_push($queue, $module);
+                // Check if dependencies are met
+                if (Module::checkDependencyStatus($module, $activates)) {
+                    array_push($activates, $module->getName());
+                    $module->boot();
+
+                    // Check if any queued modules can be loaded
+                    foreach ($queue as $key => $queuedModule) {
+                        if (!$queuedModule->isLoaded() && Module::checkDependencyStatus($queuedModule, $activates)) {
+                            $queuedModule->boot();
+                            array_push($activates, $queuedModule->getName());
+                            unset($queue[$key]);
+                        }
+                    }
+                    $notDone = true;
+                } else {
+                    // Add to the queue
+                    array_push($queue, $module);
+                }
             }
         }
     }
 
     /**
-     * Orders the Modules-Array by its priority
+     * Returns an ordered List of modules
+     * @return Module[]
      */
-    private static function orderModules(): void{
-        uasort(self::$modules, function (Module $a, Module $b){
+    private static function getOrderModules(): array{
+        $modules = array_values(self::$modules);
+        uasort($modules, function (Module $a, Module $b){
             $a = $a->getPriority();
             $b = $b->getPriority();
             if ($a == $b) {
@@ -232,5 +241,6 @@ class System{
             }
             return ($a < $b) ? -1 : 1;
         });
+        return $modules;
     }
 }
