@@ -242,7 +242,7 @@ use Core\API;
 use Core\Pipeline;
 
 add_action('after_setup_theme',function() {
-    System::addModule(new class('%MODULE_NAME%', 10, ['_CORE_']) extends Module implements API{
+    System::addModule(new class('foobar', 10, ['_CORE_']) extends Module implements API{
         /**
          * Returns the current Modules API-Pipeline instance
          * @return Pipeline
@@ -265,7 +265,7 @@ After you have implemented all your public methods, you can access these methods
 call. Direct access is possible, but prone to fatal errors. Using `access` is preferred, because
 an `Exception` is thrown, if the requested method does not exist.
 ```php
-$fooAPI = System::API('foo');
+$fooAPI = System::API('foobar');
 echo $fooAPI->hello('world'); // possible
 echo $fooAPI->access('hello', 'world'); // preferred
 ```
