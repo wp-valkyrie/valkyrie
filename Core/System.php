@@ -144,9 +144,13 @@ class System{
     /**
      * Adds a new Module to the core, which gets loaded automatically
      * @param Module $module New Module to add to the Core
+     * @throws \Exception throws an exception if a module with the given modules name already exists
      */
     public static function addModule(Module $module): void{
-        array_push(self::$modules, $module);
+        if (isset(self::$modules[$module->getName()])){
+            throw new \Exception("Module with the name " . $module->getName() . " already exists");
+        }
+        self::$modules[$module->getName()] = $module;
     }
 
     /**
@@ -242,5 +246,42 @@ class System{
             return ($a < $b) ? -1 : 1;
         });
         return $modules;
+    }
+
+    /**
+     * Establishes a connection to the given modules public API if possible
+     * @param string $module The name of the module to connect an API-Pipeline to
+     * @return Pipeline
+     * @throws \Exception throws an exception if the module does not exists, does not  provide an api or something else went wrong
+     */
+    public static function API(string $module){
+        /** @var Pipeline[] $pipelines */
+        static $pipelines;
+
+        // Create the array if it does not exist yet
+        if (!isset($pipelines)){
+            $pipelines = [];
+        }
+
+        // Returns cached pipelines if possible
+        if (isset($pipelines[$module])){
+            return $pipelines[$module];
+        }
+
+        // Validate the requested module
+        if (!isset(self::$modules[$module])){
+            throw new \Exception('Module with the name ' . $module . ' does not exist and can therefore not be accessed with System::API');
+        }
+        if (!in_array('Core\API', class_implements(get_class(self::$modules[$module])))){
+            throw new \Exception('Module with the name ' . $module . ' does not implements the Core\API interface and therefore does not provide a public API');
+        }
+
+        // sets and returns the module pipeline
+        /** @var API $apiModule */
+        $apiModule = self::$modules[$module];
+        $pipeline = $apiModule->getPipeline();
+
+        $pipelines[$module] = $pipeline;
+        return $pipeline;
     }
 }

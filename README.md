@@ -115,7 +115,7 @@ public function init(): void{
 A module can have multiple dependency Plugins. The version parameter (3rd) is optional and allows
 defining the minimal version requirements. If the Plugins are not installed or activated. An admin notice will inform you.
 ```php
-use Core\Admin\PluginChecker; // needs to be at top of file
+use Core\Admin\PluginChecker;
 
 $dependencies = new PluginChecker();
 $dependencies->addPlugin('Advanced Custom Fields','advanced-custom-fields/acf.php'); // ACF any version
@@ -126,8 +126,8 @@ $dependencies->checkPlugins();
 ### Admin Notice
 This has already been introduced in the `require()` method above.
 ```php
-use Core\System; // needs to be at top of file
-use Core\Admin\Notice; // needs to be at top of file
+use Core\System;
+use Core\Admin\Notice;
 
 // no color (default)
 System::addNotice(new Notice('plain', Notice::NONE));
@@ -150,7 +150,7 @@ System::addNotice(new Notice('warning can be dismissed', Notice::WARNING, true))
 The WP-Core comes with a basic Form-Builder which is meant for usage within the Admin-Panel
 in meta-boxes, admin-pages and widgets.
 ```php
-use Core\Form; // needs to be at top of file
+use Core\Form;
 
 $form = new Form('form-id');
 
@@ -167,9 +167,9 @@ $form->dispatch();
 Adding options-pages to the WP-Backend is really simple. **Option pages support the Core form-builder.**
 Data gets saved to the global options.
 ```php
-use Core\System; // needs to be at top of file
-use Core\Admin\Page; // needs to be at top of file
-use Core\Form; // needs to be at top of file
+use Core\System;
+use Core\Admin\Page;
+use Core\Form;
 
 // Page is created
 $page = new Page('Page Title', function(): void{
@@ -196,9 +196,9 @@ System::addPage($page);
 Adding meta-boxes to the WP-Backend is really simple as well. It is meant to be used with the
 Core form-builder and saves data to the current posts post_meta.
 ```php
-use Core\System; // needs to be at top of file
-use Core\Admin\Meta; // needs to be at top of file
-use Core\Form; // needs to be at top of file
+use Core\System;
+use Core\Admin\Meta;
+use Core\Form;
 
 // Metaboxes are meant to be used with the formbuilder
 $form = new Form('form-id');
@@ -213,9 +213,10 @@ System::addMeta($meta);
 Building a custom widget is really simple. You only have to define its name and provide two
 functions. One for rendering and one which builds the form using the Core form-builder.
 ```php
-use Core\System; // needs to be at top of file
-use Core\Admin\Widget; // needs to be at top of file
-use Core\Form; // needs to be at top of file
+use Core\System;
+use Core\Admin\Widget;
+use Core\Form;
+
 $widget = new Widget('widget-id','Widget Name', 'Description', function(array $values, array $atts): void{
     echo $values['headline'];
 }, function(Form $form): void{
@@ -224,3 +225,59 @@ $widget = new Widget('widget-id','Widget Name', 'Description', function(array $v
 
 System::addWidget($widget);
 ```
+
+### Cross Module Communication
+To enable information flow between Core-Modules, the System provides an optional interface, which allows
+your module to provide a public API to the outer world or other modules.
+
+To allow your `Module` to have a public API, you need to implement the `API` interface. This will force
+you to implement the `getPipeline()` method, where you can provide a pipeline object, which handles all
+API-Requests.
+
+```php
+use Core\System;
+use Core\Module;
+use Core\RequireHandler;
+use Core\API;
+use Core\Pipeline;
+
+add_action('after_setup_theme',function() {
+    System::addModule(new class('%MODULE_NAME%', 10, ['_CORE_']) extends Module implements API{
+        /**
+         * Returns the current Modules API-Pipeline instance
+         * @return Pipeline
+         */
+        public function getPipeline(): Pipeline{
+            // Our pipeline instance
+            $pipeline = new class() extends Pipeline{
+                // methods can be defined as usual
+                public function hello(string $object): string{
+                    return 'Hello ' . $object;
+                }
+            };
+            return $pipeline;
+        }
+    });
+});
+```
+
+After you have implemented all your public methods, you can access these methods using a `System::API`
+call. Direct access is possible, but prone to fatal errors. Using `access` is preferred, because
+an `Exception` is thrown, if the requested method does not exist.
+```php
+$fooAPI = System::API('foo');
+echo $fooAPI->hello('world'); // possible
+echo $fooAPI->access('hello', 'world'); // preferred
+```
+
+### Module dependencies
+New Modules can have dependencies of other modules. The Module will only load if all dependencies can be resolved.
+`_CORE_` represents all main WP-Core Modules and as long as you are using any of its functions, it is highly recommended
+to be dependent on it.
+```php
+new class('%MODULE_NAME%', 10, ['_CORE_', 'foo', 'bar']) extends Module{
+    // ...
+}
+``` 
+If you are using external Module APIs within your Module using `System::API($moduleName)`
+don't forget to include the accessed Module as a dependency to prevent any Errors.
