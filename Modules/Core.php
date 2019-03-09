@@ -4,25 +4,26 @@ use Core\Module;
 use Core\System;
 
 // List of all Core Modules
-// This allows this module to be a main dependency for all user generated
-// modules
-
 $dependencies = [
     '_CORE_ADMIN_',
     '_CORE_FORM_'
 ];
 
+/**
+ * This module wraps all core-modules and can serve as the
+ * main dependency for all user-generated modules
+ * which require the CORE API
+ */
 System::addModule(new class('_CORE_', PHP_INT_MIN, $dependencies) extends Module{
 
     /**
      * Initializes the Module
      */
     public function init(): void{
-        // This Modules does nothing other than load the copyright notice
-        if (apply_filters('wp-core_copyright', true)){
+        if (apply_filters('wp-core_copyright', false)){
             add_action('wp_footer', [$this, 'printCopyRightNotice']);
         }
-        if (apply_filters('wp-core_copyright-admin', true)) {
+        if (apply_filters('wp-core_copyright-admin', false)) {
             add_action('admin_footer', [$this, 'printCopyRightNotice']);
         }
     }
