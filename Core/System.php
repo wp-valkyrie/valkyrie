@@ -147,7 +147,7 @@ class System{
      * @throws \Exception throws an exception if a module with the given modules name already exists
      */
     public static function addModule(Module $module): void{
-        if (isset(self::$modules[$module->getName()])){
+        if (isset(self::$modules[$module->getName()])) {
             throw new \Exception("Module with the name " . $module->getName() . " already exists");
         }
         self::$modules[$module->getName()] = $module;
@@ -211,14 +211,16 @@ class System{
                 }
                 // Check if dependencies are met
                 if (Module::checkDependencyStatus($module, $activates)) {
-                    array_push($activates, $module->getName());
                     $module->boot();
+                    array_push($activates, $module->getName());
+                    do_action('core_module_loaded', $module->getName());
 
                     // Check if any queued modules can be loaded
                     foreach ($queue as $key => $queuedModule) {
                         if (!$queuedModule->isLoaded() && Module::checkDependencyStatus($queuedModule, $activates)) {
                             $queuedModule->boot();
                             array_push($activates, $queuedModule->getName());
+                            do_action('core_module_loaded', $queuedModule->getName());
                             unset($queue[$key]);
                         }
                     }
@@ -229,6 +231,7 @@ class System{
                 }
             }
         }
+        do_action('core_modules_loaded', $activates);
     }
 
     /**
@@ -259,20 +262,20 @@ class System{
         static $pipelines;
 
         // Create the array if it does not exist yet
-        if (!isset($pipelines)){
+        if (!isset($pipelines)) {
             $pipelines = [];
         }
 
         // Returns cached pipelines if possible
-        if (isset($pipelines[$module])){
+        if (isset($pipelines[$module])) {
             return $pipelines[$module];
         }
 
         // Validate the requested module
-        if (!isset(self::$modules[$module])){
+        if (!isset(self::$modules[$module])) {
             throw new \Exception('Module with the name ' . $module . ' does not exist and can therefore not be accessed with System::API');
         }
-        if (!in_array('Core\API', class_implements(get_class(self::$modules[$module])))){
+        if (!in_array('Core\API', class_implements(get_class(self::$modules[$module])))) {
             throw new \Exception('Module with the name ' . $module . ' does not implements the Core\API interface and therefore does not provide a public API');
         }
 
