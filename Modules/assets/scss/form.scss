@@ -271,3 +271,14 @@ $wp-border: #e5e5e5;
         }
     }
 }
+
+.core-file{
+    display: flex;
+    align-items: flex-end;
+    &__content{
+        padding-left: 1em;
+        *{
+            display: block;
+        }
+    }
+}

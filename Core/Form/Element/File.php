@@ -86,7 +86,10 @@ class File extends Element{
         <div class="core-file">
             <a class="' . (($hasValue) ? '' : 'button') . ' core-file__button" ' . trim($dataString) . '>' . (($hasValue) ? $image : $this->upload) . '</a>
             <input class="core-file__input" type="hidden" name="' . $this->name . '" value="' . $this->value . '" />
-            <a href="#" class="core-file__remove" style="' . ((!$hasValue) ? 'display: none' : '') . '">entfernen</a>
+            <div class="core-file__content">
+                <span class="core-file__title">' . basename(get_attached_file($this->value)) . '</span>
+                <a href="#" class="core-file__remove" style="' . ((!$hasValue) ? 'display: none' : '') . '">entfernen</a>
+            </div>
         </div>
         ';
     }

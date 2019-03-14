@@ -28,10 +28,13 @@ jQuery(function ($){
             },
             multiple: button.attr('data-multiple') === 'true'
         }).on('select', function (){
+            const wrapper = button.parent();
             let attachment = loader.state().get('selection').first().toJSON();
             button.removeClass('button').html(renderType(attachment));
-            button.siblings('.core-file__input').val(attachment.id);
-            button.siblings('.core-file__remove').show();
+            console.log(attachment);
+            wrapper.find('.core-file__title').text(attachment.filename);
+            wrapper.find('.core-file__input').val(attachment.id);
+            wrapper.find('.core-file__remove').show();
         }).open();
     });
 
@@ -42,10 +45,11 @@ jQuery(function ($){
     body.on('click', '.core-file__remove', function (event){
         event.preventDefault();
         let remove = $(this),
-            button = remove.siblings('.core-file__button');
+            button = remove.parent().siblings('.core-file__button');
 
         remove.hide();
-        remove.siblings('.core-file__input').val('');
+        remove.siblings('.core-file__title').text('');
+        remove.parent().siblings('.core-file__input').val('');
         button.addClass('button').html(atob(button.attr('data-text')));
     });
 
