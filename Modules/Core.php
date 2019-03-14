@@ -20,7 +20,7 @@ System::addModule(new class('_CORE_', PHP_INT_MIN, $dependencies) extends Module
      * Initializes the Module
      */
     public function init(): void{
-        if (apply_filters('wp-core_copyright', false)){
+        if (apply_filters('wp-core_copyright', false)) {
             add_action('wp_footer', [$this, 'printCopyRightNotice']);
         }
         if (apply_filters('wp-core_copyright-admin', false)) {

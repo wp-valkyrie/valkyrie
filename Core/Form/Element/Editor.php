@@ -59,12 +59,12 @@ class Editor extends Element{
     public function render(Dispatcher $dispatcher): void{
         ob_start();
         ?>
-        <div class="core-editor" data-editor-name="<?php echo $this->name;?>" data-editor-id="<?php echo $this->id;?>">
+        <div class="core-editor" data-editor-name="<?php echo $this->name; ?>" data-editor-id="<?php echo $this->id; ?>">
             <textarea class="core-editor__settings" disabled>
-                <?php echo json_encode(wp_parse_args($this->options, self::getDefaultSettings()));?>
+                <?php echo json_encode(wp_parse_args($this->options, self::getDefaultSettings())); ?>
             </textarea>
             <div class="core-editor__template">
-                <textarea disabled class="core-editor__wrapper" name="<?php echo $this->name;?>"><?php echo $this->content;?></textarea>
+                <textarea disabled class="core-editor__wrapper" name="<?php echo $this->name; ?>"><?php echo $this->content; ?></textarea>
             </div>
             <div class="core-editor__area"></div>
         </div>

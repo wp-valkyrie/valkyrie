@@ -41,8 +41,8 @@ System::addModule(new class('_CORE_FORM_', PHP_INT_MAX) extends Module{
     public function adminEnqueue(): void{
         wp_enqueue_media();
         wp_enqueue_editor();
-        wp_enqueue_script( 'wp-link' );
-        wp_enqueue_style( 'editor-buttons' );
+        wp_enqueue_script('wp-link');
+        wp_enqueue_style('editor-buttons');
 
         wp_enqueue_script('jquery-ui-sortable');
 //        wp_enqueue_script('core-admin-form-logic', System::pathToUrl(System::$dir) . '/Modules/assets/js/form-logic.js', ['jquery'], '1.0', true);
