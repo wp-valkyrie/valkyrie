@@ -175,7 +175,6 @@ class Dispatcher{
      * Saves the given value depending on the Dispatcher-Type
      * @param string $name The values key
      * @param mixed $value The key to be saved
-     * @todo meta does not get saved if the post gets created atm
      * @return bool|int
      */
     public function save(string $name, $value){

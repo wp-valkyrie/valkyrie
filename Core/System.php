@@ -96,8 +96,11 @@ class System{
      * Saves the MetaBoxes on Form-Submit
      */
     public static function saveMetas(): void{
-        foreach (self::$metas as $meta) {
-            $meta->dispatch();
+        // Catches create cpt-page early action trigger
+        if (!empty($_POST)) {
+            foreach (self::$metas as $meta) {
+                $meta->dispatch();
+            }
         }
     }
 
