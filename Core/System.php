@@ -230,12 +230,33 @@ class System{
                     $notDone = true;
                 } else {
                     // Add to the queue
-                    array_push($queue, $module);
+                    if (!in_array($module, $queue)) {
+                        array_push($queue, $module);
+                    }
                 }
             }
         }
+
+        // Build the missing modules array
+        $queue = array_filter(array_keys(self::$modules), function (string $m) use ($activates): bool{
+            return !in_array($m, $activates);
+        });
+        $queue = array_map(function (string $name): Module{
+            return self::$modules[$name];
+        }, $queue);
+
+        // Individual missing module hook
+        foreach ($queue as $missingModule) {
+            do_action('core_module_not_loaded_' . $missingModule->getName());
+        }
+
+        // Action for all modules which have not been loaded
+        do_action('core_modules_not_loaded', $queue, $activates);
+
+        // Action for all modules which have been loaded
         do_action('core_modules_loaded', $activates);
     }
+
 
     /**
      * Returns an ordered List of modules

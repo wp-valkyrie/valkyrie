@@ -1,5 +1,6 @@
 <?php
 
+use Core\Admin\Notice;
 use Core\Module;
 use Core\System;
 
@@ -26,6 +27,7 @@ System::addModule(new class('_CORE_', PHP_INT_MIN, $dependencies) extends Module
         if (apply_filters('wp-core_copyright-admin', false)) {
             add_action('admin_footer', [$this, 'printCopyRightNotice']);
         }
+        add_action('core_modules_not_loaded', [$this, 'displayMissingModules'], 10, 2);
     }
 
     /**
@@ -49,6 +51,30 @@ System::addModule(new class('_CORE_', PHP_INT_MIN, $dependencies) extends Module
      */
     public function adminEnqueue(): void{
         // No Backend Enqueues
+    }
+
+    /**
+     * Displays an admin notice informing the user about
+     * modues, which could not been loaded because of missing
+     * dependencies
+     * @param Module[] $modules
+     * @param string[] $activates
+     */
+    public function displayMissingModules(array $modules, array $activates): void{
+        // Skip if all registered modules have been loaded
+        if (empty($modules)) {
+            return;
+        }
+
+        // Display one admin warning notice containg all missing modules and the specific missing dependencies
+        $content = __('The Following WP-Core Module(s) could not be loaded because one or more dependency is missing: ') . '<br />';
+        foreach ($modules as $module) {
+            $deps = array_filter($module->getDependencies(), function (string $d) use ($activates): bool{
+                return !in_array($d, $activates);
+            });
+            $content .= '<strong>' . $module->getName() . '</strong>' . ' ← ' . '<small>' . implode(' , ', $deps) . '</small><br />';
+        }
+        System::addNotice(new Notice($content, Notice::WARNING));
     }
 
     /**
