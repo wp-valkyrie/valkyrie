@@ -1,20 +1,20 @@
 <?php
 
-use Core\System;
+use Valkyrie\System;
 
 /**
  * Main System Components
  */
-require_once 'Core/System.php';
-require_once 'Core/Module.php';
-require_once 'Core/RequireHandler.php';
-require_once 'Core/Form.php';
+require_once 'Valkyrie/System.php';
+require_once 'Valkyrie/Module.php';
+require_once 'Valkyrie/RequireHandler.php';
+require_once 'Valkyrie/Form.php';
 
 /**
  * Module intercommunication
  */
-require_once 'Core/API.php';
-require_once 'Core/Pipeline.php';
+require_once 'Valkyrie/API.php';
+require_once 'Valkyrie/Pipeline.php';
 
 /**
  * Main Core-Modules

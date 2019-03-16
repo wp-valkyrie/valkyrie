@@ -1,8 +1,8 @@
 <?php
 
-use Core\Admin\Notice;
-use Core\Module;
-use Core\System;
+use Valkyrie\Admin\Notice;
+use Valkyrie\Module;
+use Valkyrie\System;
 
 // List of all Core Modules
 $dependencies = [
@@ -32,10 +32,10 @@ System::addModule(new class('_CORE_', PHP_INT_MIN, $dependencies) extends Module
 
     /**
      * Builds up a RequireHandler for later usage within this Module
-     * @param \Core\RequireHandler $handler A fresh RequireHandler to add files to
-     * @return \Core\RequireHandler The combined RequireHandler
+     * @param \Valkyrie\RequireHandler $handler A fresh RequireHandler to add files to
+     * @return \Valkyrie\RequireHandler The combined RequireHandler
      */
-    public function require(\Core\RequireHandler $handler): \Core\RequireHandler{
+    public function require(\Valkyrie\RequireHandler $handler): \Valkyrie\RequireHandler{
         return $handler;
     }
 

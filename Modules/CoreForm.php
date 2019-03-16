@@ -1,7 +1,7 @@
 <?php
 
-use Core\Module;
-use Core\System;
+use Valkyrie\Module;
+use Valkyrie\System;
 
 
 System::addModule(new class('_CORE_FORM_', PHP_INT_MAX) extends Module{
@@ -15,15 +15,15 @@ System::addModule(new class('_CORE_FORM_', PHP_INT_MAX) extends Module{
 
     /**
      * Builds up a RequireHandler for later usage within this Module
-     * @param \Core\RequireHandler $handler A fresh RequireHandler to add files to
-     * @return \Core\RequireHandler The combined RequireHandler
+     * @param \Valkyrie\RequireHandler $handler A fresh RequireHandler to add files to
+     * @return \Valkyrie\RequireHandler The combined RequireHandler
      */
-    public function require(\Core\RequireHandler $handler): \Core\RequireHandler{
-        $handler->addFile(__DIR__ . '/../Core/Form/*.php');
-        $handler->addFile(__DIR__ . '/../Core/Form/Structure/*.php');
-        $handler->addFile(__DIR__ . '/../Core/Form/Grouping/*.php');
-        $handler->addFile(__DIR__ . '/../Core/Form/Element/*.php');
-        $handler->addFile(__DIR__ . '/../Core/Form/Element/Selectable/*.php');
+    public function require(\Valkyrie\RequireHandler $handler): \Valkyrie\RequireHandler{
+        $handler->addFile(__DIR__ . '/../Valkyrie/Form/*.php');
+        $handler->addFile(__DIR__ . '/../Valkyrie/Form/Structure/*.php');
+        $handler->addFile(__DIR__ . '/../Valkyrie/Form/Grouping/*.php');
+        $handler->addFile(__DIR__ . '/../Valkyrie/Form/Element/*.php');
+        $handler->addFile(__DIR__ . '/../Valkyrie/Form/Element/Selectable/*.php');
         return $handler;
     }
 

@@ -1,10 +1,12 @@
-# WP-Core
-This Repository contains a Core-System for WordPress themes, plugins and anything else.
-It uses a small, extensible API and allows easy development of complex modules.
+# WP Valkyrie
+This Repository contains the Core-System of Valkyrie, an abstraction layer for the WordPress
+ecosystem. It uses a small, extensible API and allows easy development of complex system by
+layering simple, standalone, intercommunicating modules.
 
-**It is highly recommended to use a full fledged IDE while working with the WP-Core.** 
+**It is highly recommended to use a full fledged IDE while working with the Valkyrie system.** 
 
-## Core Features
+## System-Core Features
+- Split complex Systems into multiple small modules
 - Check plugin dependencies for individual modules
 - Enqueue assets with ease
 - Load module files without hassle
@@ -21,16 +23,18 @@ The core and all its modules will get loaded automatically.
 Clone this repository into your theme-folder `git clone https://github.com/jschaefer-io/wp-core.git`
 and add the following line to your `functions.php`.
 ```php
-// Loads the WP-Core and all its modules
-require 'wp-core/Bootstrap.php';
+// Loads the Valkyrie-Core and all its modules
+require 'valkyrie/Bootstrap.php';
 ```
 
 ## Usage
-WP-Core is designed to be used from both the theme and multiple plugins at the same time.
+WP Valkyrie is designed to be used from both the theme and multiple plugins at the same time.
 Therefor all Module registration should happen **on** the `after_setup_theme` hook.
 
 ### Add a module
-Adding module is pretty straightforward and required a fixed set of methods to be implemented (\Core\Modules is abstract).
+Modules are the most important thing when using the Valkyrie-System. Modules provide a behaviour and can be layered
+to combine multiple small parts into complex Systems.
+Adding a module is pretty straightforward and requires a fixed set of methods to be implemented (\Core\Modules is abstract).
 The individual methods will be explained in the following examples. 
 ```php
 // Minimal Module registration
@@ -147,7 +151,7 @@ System::addNotice(new Notice('warning can be dismissed', Notice::WARNING, true))
 ```
 
 ### Forms
-The WP-Core comes with a basic Form-Builder which is meant for usage within the Admin-Panel
+The Valkyrie-Core comes with a basic Form-Builder which is meant for usage within the Admin-Panel
 in meta-boxes, admin-pages and widgets.
 ```php
 use Core\Form;
@@ -272,7 +276,7 @@ echo $fooAPI->access('hello', 'world'); // preferred
 
 ### Module dependencies
 New Modules can have dependencies of other modules. The Module will only load if all dependencies can be resolved.
-`_CORE_` represents all main WP-Core Modules and as long as you are using any of its functions, it is highly recommended
+`_CORE_` represents all main Valkyrie-Modules and as long as you are using any of its functions, it is highly recommended
 to be dependent on it.
 ```php
 new class('%MODULE_NAME%', 10, ['_CORE_', 'foo', 'bar']) extends Module{
