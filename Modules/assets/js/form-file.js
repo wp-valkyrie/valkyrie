@@ -14,6 +14,15 @@ jQuery(function ($){
         event.preventDefault();
 
         let button = $(this);
+
+        // Attach media file to post if field requires it
+        const fileField = button.parents('.core-file');
+        if (parseInt(fileField.data('attach')) === 1){
+            const id = jQuery('#post_ID').val();
+            if (id){
+                wp.media.model.settings.post.id = id;
+            }
+        }
         /**
          * Media Options
          * @see https://codex.wordpress.org/Javascript_Reference/wp.media

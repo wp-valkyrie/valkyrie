@@ -8,7 +8,13 @@ use Valkyrie\Form\Element;
 /**
  * Basic File-Upload Element
  */
-class File extends Element{
+class File extends Element {
+
+    /**
+     * True if the media id has been attached to a post variable
+     * @var bool
+     */
+    private static $idAttached = false;
 
     /**
      * The Title of the opening modal-box
@@ -41,20 +47,28 @@ class File extends Element{
     private $value;
 
     /**
+     * If false the media file will not get attached to the posts media library
+     * @var bool
+     */
+    private $attachToPost;
+
+    /**
      * File constructor.
      * @param string $name The name attribute of the File-Upload
      * @param string $upload The Upload-Button Text
      * @param array $types Array of accepted File-Types Only dispaly items of a specific MIME type (Ex: 'image', 'image/png', 'application/pdf')
      * @param string $title The Title of the opening modal-box
      * @param string $button The Button-Text in the opening modal-box
+     * @param bool $attachToPost if false the media file will not get attached to the posts media library
      */
-    public function __construct(string $name, string $upload = "Datei hochladen", array $types = [], string $title = "Datei auswählen", string $button = "Auswahl bestätigen"){
+    public function __construct(string $name, string $upload = "Datei hochladen", array $types = [], string $title = "Datei auswählen", string $button = "Auswahl bestätigen", bool $attachToPost = true){
         parent::__construct($name);
         $this->upload = $upload;
         $this->button = $button;
         $this->types = $types;
         $this->title = $title;
         $this->value = null;
+        $this->attachToPost = $attachToPost;
     }
 
     /**
@@ -82,7 +96,7 @@ class File extends Element{
         }
 
         echo '
-        <div class="core-file">
+        <div class="core-file" data-attach="' . ($this->attachToPost ? 1 : 0) . '">
             <a class="' . (($hasValue) ? '' : 'button') . ' core-file__button" ' . trim($dataString) . '>' . (($hasValue) ? $image : $this->upload) . '</a>
             <input class="core-file__input" type="hidden" name="' . $this->name . '" value="' . $this->value . '" />
             <div class="core-file__content">
