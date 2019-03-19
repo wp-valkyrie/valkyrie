@@ -11,12 +11,6 @@ use Valkyrie\Form\Element;
 class File extends Element {
 
     /**
-     * True if the media id has been attached to a post variable
-     * @var bool
-     */
-    private static $idAttached = false;
-
-    /**
      * The Title of the opening modal-box
      * @var string
      */
