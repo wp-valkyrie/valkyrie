@@ -75,12 +75,17 @@ class RequireHandler{
     /**
      * Required all files from the given group
      * @param string $group group-name from which to require all files
+     * @param array $vars
      * @throws \Exception If the requested group does not exist.
+     * @return array list of require return values
      */
-    public function dispatch(string $group): void{
+    public function dispatch(string $group, array $vars = []): array{
+        $returns = [];
         $group = $this->getGroup($group);
+        extract($vars);
         foreach ($group as $file) {
-            require_once($file);
+            $returns[$file] = require_once($file);
         }
+        return $returns;
     }
 }

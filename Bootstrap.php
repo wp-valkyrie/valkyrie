@@ -15,6 +15,7 @@ require_once 'Valkyrie/Form.php';
  */
 require_once 'Valkyrie/API.php';
 require_once 'Valkyrie/Pipeline.php';
+require_once 'Valkyrie/Component.php';
 
 /**
  * Main Core-Modules

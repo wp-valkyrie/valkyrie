@@ -39,6 +39,12 @@ abstract class Module{
     private $dependencies;
 
     /**
+     * List of Module Component Objects associated with this module
+     * @var Pipeline[]
+     */
+    private $components = [];
+
+    /**
      * Module constructor.
      * @param string $name Name of the Module
      * @param int $priority Priority of inclusion into the boilerplate
@@ -109,7 +115,18 @@ abstract class Module{
      * @throws \Exception  If the requested group does not exist.
      */
     public final function requireGroup(string $group = 'default'): void{
-        $this->requireHandler->dispatch($group);
+        $includes = $this->requireHandler->dispatch($group, ['module'=>$this]);
+        foreach ($includes as $include){
+            // If a component object is returned
+            // register it to this module
+            if (is_a($include, '\Valkyrie\Component')){
+                /* @var $include Component */
+                if (isset($this->components[$include->getName()])){
+                    throw new \Exception('Component with the name ' . $include->getName() . ' already defined on module ' . $this->getName());
+                }
+                $this->components[$include->getName()] = $include->getPipeline();
+            }
+        }
     }
 
     /**
