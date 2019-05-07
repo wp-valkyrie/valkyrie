@@ -18,6 +18,6 @@
     },
     "homepage": "https://github.com/jschaefer-io/wp-core#readme",
     "devDependencies": {
-        "node-sass": "^4.9.3"
+        "node-sass": "^4.12.0"
     }
 }
