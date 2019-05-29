@@ -44,6 +44,7 @@ class GroupDispatcher extends Dispatcher{
             if (is_string($data)){
                 $data = stripslashes_deep($data);
             }
+            return $data;
         }
         return null;
     }
