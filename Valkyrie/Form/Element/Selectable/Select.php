@@ -39,7 +39,7 @@ class Select extends Selectable{
         }
         $select .= '</select>';
 
-        echo $label . $select;
+        echo self::getRenderedField($label, $select);
     }
 
     /**
