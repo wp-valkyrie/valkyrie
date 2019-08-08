@@ -299,8 +299,8 @@ class System{
         if (!isset(self::$modules[$module])) {
             throw new \Exception('Module with the name ' . $module . ' does not exist and can therefore not be accessed with System::API');
         }
-        if (!in_array('Core\API', class_implements(get_class(self::$modules[$module])))) {
-            throw new \Exception('Module with the name ' . $module . ' does not implements the Core\API interface and therefore does not provide a public API');
+        if (!in_array('Valkyrie\API', class_implements(get_class(self::$modules[$module])))) {
+            throw new \Exception('Module with the name ' . $module . ' does not implements the Valkyrie\API interface and therefore does not provide a public API');
         }
 
         // sets and returns the module pipeline

@@ -5,6 +5,20 @@ namespace Valkyrie;
 
 
 abstract class Pipeline{
+
+    /**
+     * @var Module
+     */
+    private $module;
+
+    /**
+     * Pipeline constructor.
+     * @param Module $module
+     */
+    public function __construct(Module $module){
+        $this->module = $module;
+    }
+
     /**
      * Main entry point for the Pipeline
      * @param string $name function to call
@@ -16,5 +30,13 @@ abstract class Pipeline{
             throw new \Exception('Pipeline Method ' . $name . ' does not exist.');
         }
         return call_user_func_array([$this, $name], array_slice(func_get_args(), 1));
+    }
+
+    /**
+     * Returns the parent module
+     * @return Module
+     */
+    public final function getModule(): Module{
+        return $this->module;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Valkyrie;
 
+use Exception;
+
 /**
  * Main Module to enable all boilerplate integrations
  * @abstract
@@ -9,7 +11,7 @@ namespace Valkyrie;
 abstract class Module{
 
     /**
-     * Is true, if the module was laoded successfully
+     * Is true, if the module was loaded successfully
      * @var bool
      */
     private $loaded = false;
@@ -112,17 +114,17 @@ abstract class Module{
     /**
      * Requires all files from the given group.
      * @param string $group group-name to require from the RequireHandler 'default' is the default value
-     * @throws \Exception  If the requested group does not exist.
+     * @throws Exception  If the requested group does not exist.
      */
     public final function requireGroup(string $group = 'default'): void{
-        $includes = $this->requireHandler->dispatch($group, ['module'=>$this]);
-        foreach ($includes as $include){
+        $includes = $this->requireHandler->dispatch($group, ['module' => $this]);
+        foreach ($includes as $include) {
             // If a component object is returned
             // register it to this module
-            if (is_a($include, '\Valkyrie\Component')){
+            if (is_a($include, '\Valkyrie\Component')) {
                 /* @var $include Component */
-                if (isset($this->components[$include->getName()])){
-                    throw new \Exception('Component with the name ' . $include->getName() . ' already defined on module ' . $this->getName());
+                if (isset($this->components[$include->getName()])) {
+                    throw new Exception('Component with the name ' . $include->getName() . ' already defined on module ' . $this->getName());
                 }
                 $this->components[$include->getName()] = $include->getPipeline();
             }
@@ -166,5 +168,18 @@ abstract class Module{
             }
         }
         return true;
+    }
+
+    /**
+     * Returns the module component pipeline
+     * @param string $name name of the module component
+     * @return Pipeline
+     * @throws Exception if the requested component does not exist
+     */
+    public function getComponent(string $name): Pipeline{
+        if (!isset($this->components[$name])) {
+            throw new Exception('No Component with the name ' . $name . ' defined on module ' . $this->getName() . '!');
+        }
+        return $this->components[$name];
     }
 }
