@@ -3,7 +3,7 @@
 namespace Valkyrie\Form\Element;
 
 use Valkyrie\Form\Element;
-use Valkyrie\Form\Selectable\Option;
+use Valkyrie\Form\Element\Selectable\Option;
 
 /**
  * Base template for input types, with multiple options

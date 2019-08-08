@@ -2,7 +2,7 @@
 
 namespace Valkyrie\Form\Element;
 
-use Valkyrie\Admin\Form\Group;
+use Valkyrie\Admin\Form\Grouping\Group;
 use Valkyrie\Form\Dispatcher;
 use Valkyrie\Form\Element;
 

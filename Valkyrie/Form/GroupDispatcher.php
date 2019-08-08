@@ -40,7 +40,11 @@ class GroupDispatcher extends Dispatcher{
         $name = $this->cleanName($name);
         $post = $this->getPost();
         if (isset($post[$name])) {
-            return $post[$name];
+            $data = $post[$name];
+            if (is_string($data)){
+                $data = stripslashes_deep($data);
+            }
+            return $data;
         }
         return null;
     }

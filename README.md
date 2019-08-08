@@ -34,13 +34,13 @@ Therefor all Module registration should happen **on** the `after_setup_theme` ho
 ### Add a module
 Modules are the most important thing when using the Valkyrie-System. Modules provide a behaviour and can be layered
 to combine multiple small parts into complex Systems.
-Adding a module is pretty straightforward and requires a fixed set of methods to be implemented (\Core\Modules is abstract).
+Adding a module is pretty straightforward and requires a fixed set of methods to be implemented (\Valkyrie\Modules is abstract).
 The individual methods will be explained in the following examples. 
 ```php
 // Minimal Module registration
-use Core\System;
-use Core\Module;
-use Core\RequireHandler;
+use Valkyrie\System;
+use Valkyrie\Module;
+use Valkyrie\RequireHandler;
 
 add_action('after_setup_theme',function() {
     System::addModule(new class('%MODULE_NAME%', 10, ['_CORE_']) extends Module{
@@ -102,8 +102,8 @@ This method is the main entry point for your module. From here you can access th
 and load any stages files from the `require()` method.
 ```php
 // Example usage: Loads the required groups and show success
-use Core\System;
-use Core\Admin\Notice;
+use Valkyrie\System;
+use Valkyrie\Admin\Notice;
 
 public function init(): void{
     $this->requireGroup('types');
@@ -119,7 +119,7 @@ public function init(): void{
 A module can have multiple dependency Plugins. The version parameter (3rd) is optional and allows
 defining the minimal version requirements. If the Plugins are not installed or activated. An admin notice will inform you.
 ```php
-use Core\Admin\PluginChecker;
+use Valkyrie\Admin\PluginChecker;
 
 $dependencies = new PluginChecker();
 $dependencies->addPlugin('Advanced Custom Fields','advanced-custom-fields/acf.php'); // ACF any version
@@ -130,8 +130,8 @@ $dependencies->checkPlugins();
 ### Admin Notice
 This has already been introduced in the `require()` method above.
 ```php
-use Core\System;
-use Core\Admin\Notice;
+use Valkyrie\System;
+use Valkyrie\Admin\Notice;
 
 // no color (default)
 System::addNotice(new Notice('plain', Notice::NONE));
@@ -154,7 +154,7 @@ System::addNotice(new Notice('warning can be dismissed', Notice::WARNING, true))
 The Valkyrie-Core comes with a basic Form-Builder which is meant for usage within the Admin-Panel
 in meta-boxes, admin-pages and widgets.
 ```php
-use Core\Form;
+use Valkyrie\Form;
 
 $form = new Form('form-id');
 
@@ -171,9 +171,9 @@ $form->dispatch();
 Adding options-pages to the WP-Backend is really simple. **Option pages support the Core form-builder.**
 Data gets saved to the global options.
 ```php
-use Core\System;
-use Core\Admin\Page;
-use Core\Form;
+use Valkyrie\System;
+use Valkyrie\Admin\Page;
+use Valkyrie\Form;
 
 // Page is created
 $page = new Page('Page Title', function(): void{
@@ -200,9 +200,9 @@ System::addPage($page);
 Adding meta-boxes to the WP-Backend is really simple as well. It is meant to be used with the
 Core form-builder and saves data to the current posts post_meta.
 ```php
-use Core\System;
-use Core\Admin\Meta;
-use Core\Form;
+use Valkyrie\System;
+use Valkyrie\Admin\Meta;
+use Valkyrie\Form;
 
 // Metaboxes are meant to be used with the formbuilder
 $form = new Form('form-id');
@@ -217,9 +217,9 @@ System::addMeta($meta);
 Building a custom widget is really simple. You only have to define its name and provide two
 functions. One for rendering and one which builds the form using the Core form-builder.
 ```php
-use Core\System;
-use Core\Admin\Widget;
-use Core\Form;
+use Valkyrie\System;
+use Valkyrie\Admin\Widget;
+use Valkyrie\Form;
 
 $widget = new Widget('widget-id','Widget Name', 'Description', function(array $values, array $atts): void{
     echo $values['headline'];
@@ -239,14 +239,17 @@ you to implement the `getPipeline()` method, where you can provide a pipeline ob
 API-Requests.
 
 ```php
-use Core\System;
-use Core\Module;
-use Core\RequireHandler;
-use Core\API;
-use Core\Pipeline;
+use Valkyrie\System;
+use Valkyrie\Module;
+use Valkyrie\RequireHandler;
+use Valkyrie\API;
+use Valkyrie\Pipeline;
 
 add_action('after_setup_theme',function() {
     System::addModule(new class('foobar', 10, ['_CORE_']) extends Module implements API{
+        
+        // ...
+        
         /**
          * Returns the current Modules API-Pipeline instance
          * @return Pipeline
