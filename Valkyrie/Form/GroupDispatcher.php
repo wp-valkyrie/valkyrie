@@ -59,4 +59,15 @@ class GroupDispatcher extends Dispatcher{
         $name = trim($name, ']');
         return $name;
     }
+
+    /**
+     * Checks if the given key is present in this group
+     * @param string $key
+     * @return bool
+     */
+    public function isset(string $key): bool{
+        $name = $this->cleanName($key);
+        $post = $this->getPost();
+        return isset($post[$name]);
+    }
 }

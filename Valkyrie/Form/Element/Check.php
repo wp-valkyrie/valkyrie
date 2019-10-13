@@ -48,7 +48,7 @@ class Check extends Element{
         $this->label = $label;
         $this->value = $value;
         $this->checked = $checked;
-        if ($this->value = self::NO_VALUE) {
+        if ($this->value === self::NO_VALUE) {
             $this->onlyBool = true;
         }
     }
